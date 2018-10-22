@@ -26,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainWindows extends JFrame {
 
-//	private JTable table;
 	private JTable table;
 
 	public MainWindows() {
@@ -124,7 +123,7 @@ public class MainWindows extends JFrame {
 	public void makeCenterPanel() {
 		JPanel panelCenter = new JPanel();
 		panelCenter.setBorder(new LineBorder(SystemColor.controlDkShadow));
-		panelCenter.setBackground(SystemColor.controlLtHighlight);
+		panelCenter.setBackground(new Color(240, 255, 255));
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
 		panelCenter.setLayout(null);
 
