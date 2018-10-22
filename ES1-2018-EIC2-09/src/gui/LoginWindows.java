@@ -1,21 +1,37 @@
 package gui;
 
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
+/**
+ *	@author ajcvo-iscteiul
+ *	@category Graphical User Interface (GUI)
+ *	@description This java file contains class that constructs the Login Windows of the APP.
+ *	@since 2018
+ *	@version 1.0
+ */
 public class LoginWindows extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordField;
 
+	/**
+	 * 	@author ajcvo-iscteiul
+	 * 	@description This constructor makes the Login Windows. All the components are added in this.
+	 * 	@since 2018
+	 */
 	public LoginWindows() {
+		setTitle("Bom Dia ISCTE");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		JLabel logo = new JLabel("");

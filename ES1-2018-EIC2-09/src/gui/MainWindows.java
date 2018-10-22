@@ -21,14 +21,16 @@ import javax.swing.table.DefaultTableModel;
 /**
  *	@author ajcvo-iscteiul
  *	@category Graphical User Interface (GUI)
- *	@description This java file contains class that constructs the Main Windows of the APP.
+ *	@description This java file contains class that constructs the Main Windows of the APP. JFrame is extended.
  *	@since 2018
+ *	@version 1.0
  */
 public class MainWindows extends JFrame {
-
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 
 	public MainWindows() {
+		setResizable(false);
 		init("Bom Dia ISCTE-IUL", 1000, 800);
 		makeSidebar();
 		makeCenterPanel();
