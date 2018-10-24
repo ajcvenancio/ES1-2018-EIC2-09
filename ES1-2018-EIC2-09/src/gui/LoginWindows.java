@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 /**
  *	@author ajcvo-iscteiul
  *	@category Graphical User Interface (GUI)
- *	@description This java file contains class that constructs the Login Windows of the APP.
+ *	@description This java file contains class that constructs the Login Windows of the APP. JFrame is extended.
  *	@since 2018
  *	@version 1.0
  */
@@ -25,7 +25,8 @@ public class LoginWindows extends JFrame {
 
 	/**
 	 * 	@author ajcvo-iscteiul
-	 * 	@description This constructor makes the Login Windows. All the components are added in this.
+	 * 	@description This constructor makes the Login Windows. All the components are added in this. The components are:
+	 *  3 JLabel, 1 JTextfield, 1JPasswordField, 1 JButton.
 	 * 	@since 2018
 	 */
 	public LoginWindows() {
