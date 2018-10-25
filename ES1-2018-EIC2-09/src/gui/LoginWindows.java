@@ -30,7 +30,7 @@ public class LoginWindows extends JFrame {
 	 * 	@since 2018
 	 */
 	public LoginWindows() {
-		setTitle("Bom Dia ISCTE");
+		setTitle("Bom Dia Academia");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);

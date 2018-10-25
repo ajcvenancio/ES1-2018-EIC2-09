@@ -31,7 +31,7 @@ public class MainWindows extends JFrame {
 
 	public MainWindows() {
 		setResizable(false);
-		init("Bom Dia ISCTE-IUL", 1000, 800);
+		init("Bom Dia Academia", 1000, 800);
 		makeSidebar();
 		makeCenterPanel();
 		finalSettings();
@@ -144,22 +144,53 @@ public class MainWindows extends JFrame {
 		table.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		table.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null },
-				{ null, null, null, null, null }, { null, null, null, null, null }, { null, null, null, null, null }, },
-				new String[] { "Data", "Canal", "Origem", "Assunto", "Responder" }) {
-			boolean[] columnEditables = new boolean[] { true, true, true, true, false };
-
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"Data", "Canal", "Origem", "Assunto", "Expandir"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				true, true, true, true, false
+			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
