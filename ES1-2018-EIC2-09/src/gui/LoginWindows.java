@@ -58,7 +58,7 @@ public class LoginWindows extends JFrame {
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblPassword.setBounds(94, 247, 73, 16);
+		lblPassword.setBounds(94, 251, 73, 16);
 		getContentPane().add(lblPassword);
 		
 		passwordField = new JPasswordField();

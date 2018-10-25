@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextArea;
 
 /**
  *	@author ajcvo-iscteiul
@@ -27,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	private JTable timelineTable;
 
 	public MainWindows() {
 		setResizable(false);
@@ -135,69 +136,70 @@ public class MainWindows extends JFrame {
 		labelTimeline.setHorizontalAlignment(SwingConstants.CENTER);
 		panelCenter.add(labelTimeline);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(46, 53, 779, 623);
-		scrollPane.setBorder(new LineBorder(new Color(105, 105, 105)));
-		panelCenter.add(scrollPane);
+		JScrollPane timelineTableScrollPane = new JScrollPane();
+		timelineTableScrollPane.setBounds(46, 53, 779, 253);
+		//scrollPane.setBorder(new LineBorder(new Color(105, 105, 105)));
+		panelCenter.add(timelineTableScrollPane);
 
-		table = new JTable();
-		table.setBorder(new LineBorder(SystemColor.controlDkShadow));
-		table.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
-		table.setModel(new DefaultTableModel(
+		timelineTable = new JTable();
+		//table.setBorder(new LineBorder(SystemColor.controlDkShadow));
+		timelineTable.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		timelineTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
+		timelineTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
 			},
 			new String[] {
-				"Data", "Canal", "Origem", "Assunto", "Expandir"
+				"Data", "Canal", "Origem", "Assunto"
 			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				true, true, true, true, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(4).setResizable(false);
-		table.setBackground(new Color(240, 240, 240));
-		scrollPane.setViewportView(table);
+		));
+		timelineTable.setBackground(new Color(240, 240, 240));
+		timelineTableScrollPane.setViewportView(timelineTable);
+		
+		JTextArea itemContent = new JTextArea();
+		itemContent.setBounds(46, 319, 779, 378);
+		itemContent.setBorder(new LineBorder(SystemColor.controlDkShadow));
+		panelCenter.add(itemContent);
+		
+		JButton btnResponder = new JButton("Responder");
+		btnResponder.setBounds(358, 710, 138, 42);
+		panelCenter.add(btnResponder);
 	}
 
 	public void maximizeWindow() {

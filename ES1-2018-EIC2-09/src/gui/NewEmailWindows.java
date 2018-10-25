@@ -17,10 +17,11 @@ import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class InfoWindows extends JFrame {
+public class NewEmailWindows extends JFrame {
+	
 	private JTextField textField;
 	private JTextField textField_1;
-	public InfoWindows() {
+	public NewEmailWindows() {
 		setType(Type.POPUP);
 		setTitle("Info");
 		setSize(new Dimension(700, 700));
@@ -31,19 +32,21 @@ public class InfoWindows extends JFrame {
 		getContentPane().add(panelUp, BorderLayout.NORTH);
 		panelUp.setLayout(new GridLayout(2, 2, -420, 5));
 		
-		JLabel lblEndereoDestino = new JLabel("Endere\u00E7o Destino:");
+		JLabel lblEndereoDestino = new JLabel("  Endere\u00E7o Destino:");
 		lblEndereoDestino.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		panelUp.add(lblEndereoDestino);
 		
 		textField = new JTextField();
+		textField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		panelUp.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblAssunto = new JLabel("Assunto:");
+		JLabel lblAssunto = new JLabel("                  Assunto:");
 		lblAssunto.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		panelUp.add(lblAssunto);
 		
 		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		panelUp.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -59,17 +62,11 @@ public class InfoWindows extends JFrame {
 		getContentPane().add(panelMiddle, BorderLayout.CENTER);
 		panelMiddle.setLayout(null);
 		
-		JTextArea conteudoDaInfo = new JTextArea();
-		conteudoDaInfo.setBounds(12, 13, 658, 312);
-		conteudoDaInfo.setEditable(false);
-		conteudoDaInfo.setBorder(new LineBorder(new Color(105, 105, 105)));
-		panelMiddle.add(conteudoDaInfo);
-		
 		JTextArea conteudoDaResposta = new JTextArea();
 		conteudoDaResposta.setForeground(Color.GRAY);
 		conteudoDaResposta.setFont(new Font("Monospaced", Font.ITALIC, 13));
-		conteudoDaResposta.setText("Responder...");
-		conteudoDaResposta.setBounds(12, 338, 658, 165);
+		conteudoDaResposta.setText("Corpo do e-mail...");
+		conteudoDaResposta.setBounds(12, 13, 658, 473);
 		conteudoDaResposta.setBorder(new LineBorder(new Color(105, 105, 105)));
 		panelMiddle.add(conteudoDaResposta);
 	}
