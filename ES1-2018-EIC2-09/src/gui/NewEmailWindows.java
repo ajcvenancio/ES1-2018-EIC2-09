@@ -21,11 +21,11 @@ public class NewEmailWindows extends JFrame {
 	
 	private JTextField textField;
 	private JTextField textField_1;
-	public NewEmailWindows() {
+	public NewEmailWindows(String origem) {
 		setType(Type.POPUP);
 		setTitle("Info");
 		setSize(new Dimension(700, 700));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 20));
 		
 		JPanel panelUp = new JPanel();
@@ -36,7 +36,7 @@ public class NewEmailWindows extends JFrame {
 		lblEndereoDestino.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		panelUp.add(lblEndereoDestino);
 		
-		textField = new JTextField();
+		textField = new JTextField(origem);
 		textField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		panelUp.add(textField);
 		textField.setColumns(10);
@@ -69,5 +69,7 @@ public class NewEmailWindows extends JFrame {
 		conteudoDaResposta.setBounds(12, 13, 658, 473);
 		conteudoDaResposta.setBorder(new LineBorder(new Color(105, 105, 105)));
 		panelMiddle.add(conteudoDaResposta);
+		
+		setVisible(true);
 	}
 }

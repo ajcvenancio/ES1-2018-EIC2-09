@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 
@@ -69,11 +70,16 @@ public class LoginWindows extends JFrame {
 		btnLogin.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		btnLogin.setBounds(145, 343, 134, 58);
 		getContentPane().add(btnLogin);
-		
 	}
 	
 	
 	public void init(String title, int width, int height) {
-		
+		setSize(new Dimension(width, height));
+		setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		LoginWindows lw = new LoginWindows();
+		lw.init("Login - Bom dia Academia", 430, 550);
 	}
 }
