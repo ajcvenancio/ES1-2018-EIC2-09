@@ -141,54 +141,55 @@ public class MainWindows extends JFrame {
 		//scrollPane.setBorder(new LineBorder(new Color(105, 105, 105)));
 		panelCenter.add(timelineTableScrollPane);
 
-		timelineTable = new JTable();
+		timelineTable = new JTable(new DefaultTableModel(null, new Object[]{"Data", "Canal", "Origem", "Assunto"}));
 		//table.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		timelineTable.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		timelineTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
-		timelineTable.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"Data", "Canal", "Origem", "Assunto"
-			}
-		));
+		
+//		timelineTable.setModel(new DefaultTableModel(
+//			new Object[][] {
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//				{null, null, null, null},
+//			},
+//			new String[] {
+//				"Data", "Canal", "Origem", "Assunto"
+//			}
+//		));
 		timelineTable.setBackground(new Color(240, 240, 240));
 		timelineTableScrollPane.setViewportView(timelineTable);
 		
@@ -200,6 +201,11 @@ public class MainWindows extends JFrame {
 		JButton btnResponder = new JButton("Responder");
 		btnResponder.setBounds(358, 710, 138, 42);
 		panelCenter.add(btnResponder);
+	}
+	
+	public void addNotification(String data, String canal, String origem, String assunto ){
+		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
+		model.addRow(new Object[]{data,canal,origem,assunto});
 	}
 
 	public void maximizeWindow() {
