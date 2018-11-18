@@ -1,5 +1,4 @@
 import java.io.File;
-
 import java.io.IOException;
 import java.util.Properties;
 
@@ -28,7 +27,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 
 /**
  * 
@@ -214,13 +212,7 @@ public class email {
 			throw new RuntimeException(e);
 		}
 	}
-
-	/**
-	 * 
-	 * Método main,que cria uma instancia da classe email, e faz utilização das suas
-	 * classes send e searchEmail
-	 * 
-	 */
+	
 
 	private void addCredentials(String username, String password) {
 
@@ -286,6 +278,56 @@ public class email {
 		}
 		return false;
 	}
+	
+	private void deleteCredentials(String username, String password) {
+		if(isRegistered(username, password)) {
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document xmlDoc = builder.parse(file);
+			
+			NodeList credentialList = xmlDoc.getElementsByTagName("credential");
+			
+			for (int i = 0; i < credentialList.getLength(); i++) {
+				NamedNodeMap nodeAttributtes = credentialList.item(i).getAttributes();
+				if (nodeAttributtes.item(1).getNodeValue().equals(username)) {
+					Element toDelete = (Element) credentialList.item(i);
+					toDelete.getParentNode().removeChild(toDelete);
+					i = credentialList.getLength();
+				}
+			}
+			DOMSource source = new DOMSource(xmlDoc);
+
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			StreamResult result = new StreamResult("config.xml");
+			transformer.transform(source, result);
+
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+
+	}
+
+	/**
+	 * 
+	 * Método main,que cria uma instancia da classe email, e faz utilização das suas
+	 * classes send e searchEmail
+	 * 
+	 */
+	
 
 	public static void main(String[] args) {
 
@@ -301,9 +343,11 @@ public class email {
 
 		email email = new email();
 
-		email.connect(username, password);
-		// email.addCredentials(username, password);
+//		email.connect(username, password);
+//		 email.addCredentials(username, password);
 		// email.isRegistred(username, password);
+		
+		email.deleteCredentials(username, password);
 		System.out.println(email.isRegistered(username, password));
 	}
 
