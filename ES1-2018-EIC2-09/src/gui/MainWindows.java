@@ -29,6 +29,7 @@ import javax.swing.JTextArea;
 public class MainWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTable timelineTable;
+	private JPanel panelCenter;
 
 	public MainWindows() {
 		setResizable(false);
@@ -124,7 +125,7 @@ public class MainWindows extends JFrame {
 	 * 	@since 2018
 	 */
 	public void makeCenterPanel() {
-		JPanel panelCenter = new JPanel();
+		panelCenter = new JPanel();
 		panelCenter.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		panelCenter.setBackground(new Color(240, 255, 255));
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
@@ -210,9 +211,14 @@ public class MainWindows extends JFrame {
 	public void addNotification(String data, String canal, String origem, String assunto ){
 		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
 		model.addRow(new Object[]{data,canal,origem,assunto});
+		panelCenter.repaint();
 	}
 
 	public void maximizeWindow() {
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+	}
+	
+	public static void main(String[] args) {
+		MainWindows m = new MainWindows();
 	}
 }
