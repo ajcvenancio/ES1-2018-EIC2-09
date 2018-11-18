@@ -2,10 +2,12 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -62,11 +64,13 @@ public class MainWindows extends JFrame {
 	/**
 	 * @author ajcvo-iscteiul
 	 * @since 2018
-	 * @description This method set The default close operation of the frame as
-	 *              (EXIT_ON_CLOSE) and uses the JFrame method setVisible(true) to
-	 *              make the frame visible for the user.
+	 * @description This method center the frame, set The default close operation of
+	 *              the frame as (EXIT_ON_CLOSE) and uses the JFrame method
+	 *              setVisible(true) to make the frame visible for the user.
 	 */
 	public void finalSettings() {
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -173,7 +177,7 @@ public class MainWindows extends JFrame {
 		btnResponder.setBounds(358, 710, 138, 42);
 		panelCenter.add(btnResponder);
 
-		addNotification("data", "E-mail", "origem", "assunto");
+//		addNotification("data", "E-mail", "origem", "assunto");
 	}
 
 	/**
@@ -229,9 +233,9 @@ public class MainWindows extends JFrame {
 					} else if (canal == "Twitter") {
 
 					}
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Não está nada selecionado", "InfoBox: " + getTitle(), JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Não está nada selecionado", "ERRO",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
