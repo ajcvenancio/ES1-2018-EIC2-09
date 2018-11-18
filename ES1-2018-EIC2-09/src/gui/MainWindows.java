@@ -202,7 +202,11 @@ public class MainWindows extends JFrame {
 		btnResponder.setBounds(358, 710, 138, 42);
 		panelCenter.add(btnResponder);
 	}
-	
+	/**
+	 * 	@author ajcvo-iscteiul
+	 * 	@description Adds a row to the timeline JTable. Each row is a notification.
+	 * 	@since 2018
+	 */
 	public void addNotification(String data, String canal, String origem, String assunto ){
 		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
 		model.addRow(new Object[]{data,canal,origem,assunto});
