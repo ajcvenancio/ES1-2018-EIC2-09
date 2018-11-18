@@ -208,6 +208,11 @@ public class MainWindows extends JFrame {
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 
+	/**
+	 * @author ajcvo-iscteiul
+	 * @description Defines the actionListner of the "Responder" button.
+	 * @since 2018
+	 */
 	public void responderListener() {
 		btnResponder.addActionListener(new ActionListener() {
 
@@ -232,6 +237,11 @@ public class MainWindows extends JFrame {
 		});
 	}
 
+	/**
+	 * @author ajcvo-iscteiul
+	 * @description Return the JTable of the Timeline.
+	 * @since 2018
+	 */
 	public JTable getTimelineTable() {
 		return timelineTable;
 	}
