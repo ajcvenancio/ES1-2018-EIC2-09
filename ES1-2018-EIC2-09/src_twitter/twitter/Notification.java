@@ -1,7 +1,9 @@
 package twitter;
 
 public class Notification {
+	
 	private String channel,date,source,subject,text;
+	
 	public Notification(String channel,String date, String source, String subject, String text){
 		this.channel=channel;
 		this.date=date;
