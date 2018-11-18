@@ -234,7 +234,7 @@ public class MainWindows extends JFrame {
 
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Não está nada selecionado", "ERRO",
+					JOptionPane.showMessageDialog(null, "Não está nada selecionado", "ERRO!",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
