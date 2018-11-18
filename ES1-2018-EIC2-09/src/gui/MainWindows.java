@@ -146,51 +146,6 @@ public class MainWindows extends JFrame {
 		//table.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		timelineTable.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		timelineTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
-		
-//		timelineTable.setModel(new DefaultTableModel(
-//			new Object[][] {
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//				{null, null, null, null},
-//			},
-//			new String[] {
-//				"Data", "Canal", "Origem", "Assunto"
-//			}
-//		));
 		timelineTable.setBackground(new Color(240, 240, 240));
 		timelineTableScrollPane.setViewportView(timelineTable);
 		
@@ -213,7 +168,12 @@ public class MainWindows extends JFrame {
 		model.addRow(new Object[]{data,canal,origem,assunto});
 		panelCenter.repaint();
 	}
-
+	
+	/**
+	 * 	@author ajcvo-iscteiul
+	 * 	@description Maximizes MainWindows.
+	 * 	@since 2018
+	 */
 	public void maximizeWindow() {
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
