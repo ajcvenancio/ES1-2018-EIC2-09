@@ -44,7 +44,7 @@ public class email {
 
 	/**
 	 * *******************************************************
-	 * ***********************SEARCH**************************
+	 * ***********************Connect**************************
 	 * *******************************************************
 	 * 
 	 * Esta função executa a ligação aos servidores do Outlook, indo após a conecção
@@ -60,6 +60,7 @@ public class email {
 	 * @exception NoSuchProviderException
 	 * @exception MessagingException
 	 */
+	
 	private void connect(String username, String password) {
 		Properties properties = new Properties();
 
@@ -87,6 +88,8 @@ public class email {
 		}
 
 	}
+	
+	
 
 	public void searchEmail(String username, String password) {
 
