@@ -2,9 +2,8 @@ package twitter;
 
 /**
  * This java file contains a class that is used to combine all the different types of posts from each branch into one object type.
- * 
+ * Used by all branches.
  * @author amsgn-iscteiul
- * @category Notification
  * @since 2018
  * @version 1.0
  */

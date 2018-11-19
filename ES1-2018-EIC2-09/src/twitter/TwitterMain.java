@@ -1,10 +1,9 @@
 package twitter;
 
 /**
- * This java file contains class that constructs the Login Windows of the APP.
+ * This java file contains class that constructs the Login Windows of the APP.Twitter
  * 
  * @author amsgn-iscteiul
- * @category Twitter
  * @since 2018
  * @version 1.0
  */
