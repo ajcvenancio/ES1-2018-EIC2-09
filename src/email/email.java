@@ -35,8 +35,8 @@ import org.xml.sax.SAXException;
  * 
  * @author jhmsa-iscteiul
  * 
- *         A seguinte classe é utilizada para enviar do email do utilizador para
- *         um email a escolha e mostrar a inbox do email do utilizador
+ *         A seguinte classe é utilizada para enviar email do email do utilizador para
+ *         um email a escolha e mostrar a inbox do email do utilizador. Na classe seguinte também é possivel manipular o ficheiro XML "config.xml"
  *
  */
 
@@ -46,11 +46,9 @@ public class email {
 	private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 	/**
-	 * *******************************************************
-	 * ***********************CONNECT**************************
-	 * *******************************************************
+
 	 * 
-	 * Esta função executa a ligação aos servidores do Outlook, indo após a conecção
+	 *  O método connect() executa a ligação aos servidores do Outlook, indo após a conecção
 	 * buscar todos os emails da pasta Inbox do email do utilizador, colocando-os
 	 * num Array É também invocada uma função que imprime informação dos emails na
 	 * consola
@@ -63,7 +61,7 @@ public class email {
 	 * @exception NoSuchProviderException
 	 * @exception MessagingException
 	 */
-	
+
 	protected void connect(String username, String password) {
 		Properties properties = new Properties();
 
@@ -91,8 +89,18 @@ public class email {
 		}
 
 	}
-	
-	
+	/**
+	 * 
+	 * 	Este método searchEmail() permite obter todos os emails da pasta INBOX do utilizador. É invocado o método showInbox() que imprime informação 
+	 * se todos os email na consola
+	 * 
+	 * 
+	 * @param username Este parametro é o endereço de email do utlizador
+	 * @param password Este parametro é a password do endereço de email do utlizador
+	 * 
+	 * @exception MessagingException
+	 * 
+	 * */
 
 	public void searchEmail(String username, String password) {
 
@@ -111,32 +119,20 @@ public class email {
 
 			folderInbox.close(false);
 			// store.close();
-
-		} catch (NoSuchProviderException ex) {
-			System.out.println("No provider.");
-			ex.printStackTrace();
+	
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public Store getStore() {
-		return store;
-	}
-
-
 
 	/**
-	 * *******************************************************
-	 * ***********************SHOW INBOX *********************
-	 * *******************************************************
 	 * 
-	 * A função seguinte imprime na consola O emissor do email, o Assunto e a data
+	 * 	O método showInbox() imprime na consola o emissor do email, o Assunto e a data
 	 * de envio
 	 *
-	 * @param foundMessages
-	 *            Array com todas as Mensagens da pasta Inbox do utilizador
+	 * @param foundMessages Array com todas as Mensagens da pasta Inbox do utilizador
 	 * @exception MessagingException
 	 *
 	 */
@@ -161,11 +157,8 @@ public class email {
 
 	/**
 	 * 
-	 * *******************************************************
-	 * ***********************SEND****************************
-	 * *******************************************************
 	 * 
-	 * Esta função inicialmente executa a conecção com o servidor do Outlook,
+	 * 	O método send() inicialmente executa a conecção com o servidor do Outlook,
 	 * realizando autenticação do Utilizador e posteriormente é criada a mensagem a
 	 * enviar e é feito o seu envio.
 	 * 
@@ -179,6 +172,7 @@ public class email {
 	 *            Assunto do email a enviar
 	 * @param msg
 	 *            Corpo da mensagem a enviar no email
+	 *	
 	 * @exception MessagingException
 	 * 
 	 */
@@ -224,43 +218,74 @@ public class email {
 			throw new RuntimeException(e);
 		}
 	}
+
+	/**
+	 * 	O método addCredentials() permite adicionar credenciais ao ficheiro XML "config.xml"
+	 * 
+	 * 
+	 * @param username
+	 *            Este parametro é o endereço de email do utlizador
+	 * @param password
+	 *            Este parametro é a password do endereço de email do utlizador
+	 *
+	 * @exception SAXException
+	 * @exception IOException
+	 * @exception ParserConfigurationException
+	 * @exception TransformerConfigurationException
+	 * @exception TransformerException
+	 * 
+	 */
 	
-
 	protected void addCredentials(String username, String password) {
-		if(!isRegistered(username, password)) {
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document xmlDoc = builder.parse(file);
+		if (!isRegistered(username, password)) {
+			try {
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document xmlDoc = builder.parse(file);
 
-			Element root = xmlDoc.getDocumentElement();
+				Element root = xmlDoc.getDocumentElement();
 
-			Element credential = xmlDoc.createElement("credential");
-			credential.setAttribute("Username", username);
-			credential.setAttribute("Password", password);
-			root.appendChild(credential);
+				Element credential = xmlDoc.createElement("credential");
+				credential.setAttribute("Username", username);
+				credential.setAttribute("Password", password);
+				root.appendChild(credential);
 
-			DOMSource source = new DOMSource(xmlDoc);
+				DOMSource source = new DOMSource(xmlDoc);
 
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-			StreamResult result = new StreamResult("config.xml");
-			transformer.transform(source, result);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+				transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+				StreamResult result = new StreamResult("config.xml");
+				transformer.transform(source, result);
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			} catch (SAXException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TransformerConfigurationException e) {
+				e.printStackTrace();
+			} catch (TransformerException e) {
+				e.printStackTrace();
+			}
+
 		}
-
-	}}
-
+	}
+	
+	/**
+	 * 
+	 * 	O método isRegistered() permite verificar se um utilizador tem as suas credenciais no ficheiro XML "config.xml"
+	 * 
+	 * 
+	 * @param username
+	 *            Este parametro é o endereço de email do utlizador
+	 * @param password
+	 *            Este parametro é a password do endereço de email do utlizador
+	 *
+	 * @exception SAXException
+	 * @exception IOException
+	 * 
+	 */
 	protected boolean isRegistered(String username, String password) {
 
 		try {
@@ -270,7 +295,6 @@ public class email {
 			Document xmlDoc = builder.parse(file);
 
 			NodeList credentialList = xmlDoc.getElementsByTagName("credential");
-			
 
 			if (credentialList.getLength() == 0)
 				return false;
@@ -293,57 +317,85 @@ public class email {
 		return false;
 	}
 	
-	protected void deleteCredentials(String username, String password) {
-		if(isRegistered(username, password)) {
-		try {
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document xmlDoc = builder.parse(file);
-			
-			NodeList credentialList = xmlDoc.getElementsByTagName("credential");
-			
-			for (int i = 0; i < credentialList.getLength(); i++) {
-				NamedNodeMap nodeAttributtes = credentialList.item(i).getAttributes();
-				if (nodeAttributtes.item(1).getNodeValue().equals(username)) {
-					Element toDelete = (Element) credentialList.item(i);
-					toDelete.getParentNode().removeChild(toDelete);
-					i = credentialList.getLength();
-				}
-			}
-			DOMSource source = new DOMSource(xmlDoc);
-
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-			StreamResult result = new StreamResult("config.xml");
-			transformer.transform(source, result);
-
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}}
-
-	}
-
 	/**
+	 * 	O método deleteCredentials() permite remover as credenciais de um utilizador do ficheiro XML "config.xml"
 	 * 
-	 * Método main,que cria uma instancia da classe email, e faz utilização das suas
-	 * classes send e searchEmail
+	 * 
+	 * @param username
+	 *            Este parametro é o endereço de email do utlizador
+	 * @param password
+	 *            Este parametro é a password do endereço de email do utlizador
+	 *
+	 * @exception SAXException
+	 * @exception IOException
+	 * @exception ParserConfigurationException
+	 * @exception TransformerConfigurationException
+	 * @exception TransformerException
 	 * 
 	 */
+	protected void deleteCredentials(String username, String password) {
+		if (isRegistered(username, password)) {
+			try {
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document xmlDoc = builder.parse(file);
+
+				NodeList credentialList = xmlDoc.getElementsByTagName("credential");
+
+				for (int i = 0; i < credentialList.getLength(); i++) {
+					NamedNodeMap nodeAttributtes = credentialList.item(i).getAttributes();
+					if (nodeAttributtes.item(1).getNodeValue().equals(username)) {
+						Element toDelete = (Element) credentialList.item(i);
+						toDelete.getParentNode().removeChild(toDelete);
+						i = credentialList.getLength();
+					}
+				}
+				DOMSource source = new DOMSource(xmlDoc);
+
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+				transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+				StreamResult result = new StreamResult("config.xml");
+				transformer.transform(source, result);
+
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
 	
+	/**
+	 * 
+	 * Este método é um getter do atributo Store
+	 * 
+	 * @return o atributo Store
+	 */
+
+	public Store getStore() {
+		return store;
+	}
+	
+	/**
+	 * 
+	 * 	Método main,que cria uma instancia da classe email, e faz utilização das suas
+	 * classes send e searchEmail
+	 * 
+	 * @param args
+	 */
 
 	public static void main(String[] args) {
 
@@ -360,11 +412,11 @@ public class email {
 		email email = new email();
 
 		email.connect(username, password);
-	
-//		 email.addCredentials(username, password);
+
+		// email.addCredentials(username, password);
 		// email.isRegistred(username, password);
-		email.searchEmail(username, password);
-//		email.deleteCredentials(username, password);
+		// email.searchEmail(username, password);
+		// email.deleteCredentials(username, password);
 		System.out.println(email.isRegistered(username, password));
 	}
 
