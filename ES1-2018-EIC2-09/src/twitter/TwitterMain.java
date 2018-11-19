@@ -1,5 +1,13 @@
 package twitter;
 
+/**
+ * This java file contains class that constructs the Login Windows of the APP.
+ * 
+ * @author amsgn-iscteiul
+ * @category Twitter
+ * @since 2018
+ * @version 1.0
+ */
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +23,10 @@ public final class TwitterMain  {
 	private TwitterFactory tf;
 	private Twitter twitter;
 	
+	/**
+	 *The constructor method takes care of the authentication process and creates a new Twitter object after the authentication
+	 *@author amsgn-iscteiul
+	 * */
 	public TwitterMain(){
         try {
         	ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -28,6 +40,12 @@ public final class TwitterMain  {
         } catch (Exception e) { System.out.println(e.getMessage()); }
      }
 	
+	/**
+	 *This method receives the name of an user as an argument.
+	 *It returns a list of Notifications with the posts shown in the Twitter timeline produced by the user.
+	 *
+	 * @author amsgn-iscteiul
+	 **/
 	public List<Notification> getStatuses(String user){
 		List<Notification> notifications= new ArrayList<Notification>();
 		try {
@@ -45,22 +63,24 @@ public final class TwitterMain  {
 		return notifications;
 	}
 	
-	
+	/**
+	 * The method changeDateFormat is used to change the default format of the Post's Date and time to a simple date and time format
+	 * @author amsgn-iscteiul
+	 * */
 	private static String changeDateFormat(String dateInString){
-		SimpleDateFormat s = new SimpleDateFormat("dd/MMM/yyyy");
-		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//SimpleDateFormat s = new SimpleDateFormat("dd/MMM/yyyy");
+		//SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String date = dateInString.split(" ")[2] + "-" + dateInString.split(" ")[1] + "-" + dateInString.split(" ")[5] +"  Time: "+ dateInString.split(" ")[3] ;
 		return date;
 	}
-
+	/*
 	public static void main(String[] args) {
 		TwitterMain t=new TwitterMain();
 		for(Notification s : t.getStatuses("ISCTE")){
 			System.out.println();
 			System.out.println(s.toString());
-		}
-	
-			
+		}	
 	}
+	*/
 }
     
