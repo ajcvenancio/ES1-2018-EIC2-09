@@ -129,6 +129,7 @@ public class MainWindows extends JFrame {
 		panelLeft.add(btnFenix);
 		
 		cbFilter = new JComboBox<String>();
+		cbFilter.setBackground(Color.WHITE);
 		addFilterItems();
 		panelLeft.add(cbFilter);
 		
