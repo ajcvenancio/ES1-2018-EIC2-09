@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -44,6 +45,7 @@ public class MainWindows extends JFrame {
 	private JPanel panelCenter;
 	private JButton btnResponder;
 	private JButton btnElearning;
+	private JComboBox<String> cbFilter;
 
 	public MainWindows() {
 		setResizable(false);
@@ -125,12 +127,17 @@ public class MainWindows extends JFrame {
 
 		JButton btnFenix = new JButton("F\u00E9nix");
 		panelLeft.add(btnFenix);
+		
+		cbFilter = new JComboBox<String>();
+		addFilterItems();
+		panelLeft.add(cbFilter);
+		
 
 		JLabel label = new JLabel("");
 		panelLeft.add(label);
 
-		JLabel label_1 = new JLabel("");
-		panelLeft.add(label_1);
+//		JLabel label_1 = new JLabel("");
+//		panelLeft.add(label_1);
 
 //		JLabel label_2 = new JLabel("");
 //		panelLeft.add(label_2);
@@ -283,6 +290,13 @@ public class MainWindows extends JFrame {
 	 */
 	public JTable getTimelineTable() {
 		return timelineTable;
+	}
+	
+	public void addFilterItems() {
+		cbFilter.addItem("No Filter");
+		cbFilter.addItem("E-mail");
+		cbFilter.addItem("Facebook");
+		cbFilter.addItem("Twitter");
 	}
 
 	public static void main(String[] args) {
