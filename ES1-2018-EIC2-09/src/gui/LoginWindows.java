@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
  * @author ajcvo-iscteiul
  * @category Graphical User Interface (GUI)
  * @since 2018
- * @version 1.1
+ * @version 1.2
  */
 public class LoginWindows extends JFrame {
 	private static final long serialVersionUID = 1L;

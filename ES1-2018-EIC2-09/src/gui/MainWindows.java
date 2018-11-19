@@ -11,7 +11,6 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,10 +31,9 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * This java file contains class that constructs the Main Windows of the APP.
- * JFrame is extended.
+ * JFrame is extended. Graphical User Interface (GUI)
  * 
  * @author ajcvo-iscteiul
- * @category Graphical User Interface (GUI)
  * @since 2018
  * @version 1.1
  */
@@ -59,10 +57,7 @@ public class MainWindows extends JFrame {
 
 	/**
 	 * This method sets the title and the sizer (x,y) of the JFrame.
-	 * 
-	 * @param title  - Uses the JFrame.setTitle(title).
-	 * @param width  - Uses the JFrame.setSize(width, height).
-	 * @param height - Uses the JFrame.setSize(width, height).
+	 * @param
 	 * @author ajcvo-iscteiul
 	 * @since 2018
 	 *
@@ -180,7 +175,13 @@ public class MainWindows extends JFrame {
 		// scrollPane.setBorder(new LineBorder(new Color(105, 105, 105)));
 		panelCenter.add(timelineTableScrollPane);
 
-		timelineTable = new JTable(new DefaultTableModel(null, new Object[] { "Data", "Canal", "Origem", "Assunto" }));
+		DefaultTableModel tableModel = new DefaultTableModel(null, new Object[] { "Data", "Canal", "Origem", "Assunto" });
+		
+		timelineTable = new JTable(tableModel) {
+			public boolean isCellEditable(int row, int column){
+		        return false;
+		   }
+		};
 		// table.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		timelineTable.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		timelineTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
@@ -190,13 +191,15 @@ public class MainWindows extends JFrame {
 		JTextArea itemContent = new JTextArea();
 		itemContent.setBounds(46, 319, 779, 378);
 		itemContent.setBorder(new LineBorder(SystemColor.controlDkShadow));
+		itemContent.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		itemContent.setEditable(false);
 		panelCenter.add(itemContent);
 
 		btnResponder = new JButton("Responder");
 		btnResponder.setBounds(358, 710, 138, 42);
 		panelCenter.add(btnResponder);
 
-//		addNotification("data", "E-mail", "origem", "assunto");
+		addNotification("data", "E-mail", "origem", "assunto");
 	}
 
 	/**
