@@ -1,3 +1,5 @@
+package email;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -15,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -44,7 +47,7 @@ public class email {
 
 	/**
 	 * *******************************************************
-	 * ***********************Connect**************************
+	 * ***********************CONNECT**************************
 	 * *******************************************************
 	 * 
 	 * Esta função executa a ligação aos servidores do Outlook, indo após a conecção
@@ -61,7 +64,7 @@ public class email {
 	 * @exception MessagingException
 	 */
 	
-	private void connect(String username, String password) {
+	protected void connect(String username, String password) {
 		Properties properties = new Properties();
 
 		properties.put("mail.imap.host", "imap-mail.outlook.com");
@@ -117,6 +120,12 @@ public class email {
 		}
 
 	}
+
+	public Store getStore() {
+		return store;
+	}
+
+
 
 	/**
 	 * *******************************************************
@@ -217,8 +226,8 @@ public class email {
 	}
 	
 
-	private void addCredentials(String username, String password) {
-
+	protected void addCredentials(String username, String password) {
+		if(!isRegistered(username, password)) {
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document xmlDoc = builder.parse(file);
@@ -234,6 +243,8 @@ public class email {
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			StreamResult result = new StreamResult("config.xml");
 			transformer.transform(source, result);
 		} catch (ParserConfigurationException e) {
@@ -248,9 +259,9 @@ public class email {
 			e.printStackTrace();
 		}
 
-	}
+	}}
 
-	private boolean isRegistered(String username, String password) {
+	protected boolean isRegistered(String username, String password) {
 
 		try {
 
@@ -282,7 +293,7 @@ public class email {
 		return false;
 	}
 	
-	private void deleteCredentials(String username, String password) {
+	protected void deleteCredentials(String username, String password) {
 		if(isRegistered(username, password)) {
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -302,6 +313,8 @@ public class email {
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			StreamResult result = new StreamResult("config.xml");
 			transformer.transform(source, result);
 
@@ -346,11 +359,12 @@ public class email {
 
 		email email = new email();
 
-//		email.connect(username, password);
+		email.connect(username, password);
+	
 //		 email.addCredentials(username, password);
 		// email.isRegistred(username, password);
-		
-		email.deleteCredentials(username, password);
+		email.searchEmail(username, password);
+//		email.deleteCredentials(username, password);
 		System.out.println(email.isRegistered(username, password));
 	}
 
