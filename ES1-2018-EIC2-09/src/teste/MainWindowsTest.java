@@ -25,5 +25,13 @@ class MainWindowsTest {
 		mw.removeNotification(row);
 		assertEquals("Removing 1 row to timeline", 1, mw.getTimelineTable().getRowCount() );
 	}
+	
+	@Test
+	void testInit() {
+		mw.init("Titulo", 1000, 800);
+		assertEquals("Titulo inserido", "Titulo", mw.getTitle());
+		assertEquals("Largura inserida", 1000, mw.getWidth());
+		assertEquals("Altura inserida", 800, mw.getHeight());
+	}
 
 }

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -10,6 +11,10 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,18 +30,20 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * This java file contains class that constructs the Main Windows of the APP.
+ * JFrame is extended.
+ * 
  * @author ajcvo-iscteiul
  * @category Graphical User Interface (GUI)
- * @description This java file contains class that constructs the Main Windows
- *              of the APP. JFrame is extended.
  * @since 2018
- * @version 1.0
+ * @version 1.1
  */
 public class MainWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTable timelineTable;
 	private JPanel panelCenter;
 	private JButton btnResponder;
+	private JButton btnElearning;
 
 	public MainWindows() {
 		setResizable(false);
@@ -44,15 +51,17 @@ public class MainWindows extends JFrame {
 		makeSidebar();
 		makeCenterPanel();
 		responderListener();
+		elearningListener();
 		finalSettings();
 	}
 
 	/**
+	 * This method sets the title and the sizer (x,y) of the JFrame.
+	 * 
 	 * @param title  - Uses the JFrame.setTitle(title).
 	 * @param width  - Uses the JFrame.setSize(width, height).
 	 * @param height - Uses the JFrame.setSize(width, height).
 	 * @author ajcvo-iscteiul
-	 * @description This method sets the title and the sizer (x,y) of the JFrame.
 	 * @since 2018
 	 *
 	 */
@@ -62,11 +71,12 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * This method center the frame, set The default close operation of the frame as
+	 * (EXIT_ON_CLOSE) and uses the JFrame method setVisible(true) to make the frame
+	 * visible for the user.
+	 * 
 	 * @author ajcvo-iscteiul
 	 * @since 2018
-	 * @description This method center the frame, set The default close operation of
-	 *              the frame as (EXIT_ON_CLOSE) and uses the JFrame method
-	 *              setVisible(true) to make the frame visible for the user.
 	 */
 	public void finalSettings() {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -76,10 +86,11 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * Constructs the sidebar of the Main Windows using a JLabel. The JLabel is
+	 * composed by 5 JButtons and 1 JLabel with an ImageIcon. That JPanel is added
+	 * to the JFrame.
+	 * 
 	 * @author ajcvo-iscteiul
-	 * @description Constructs the sidebar of the Main Windows using a JLabel. The
-	 *              JLabel is composed by 5 JButtons and 1 JLabel with an ImageIcon.
-	 *              That JPanel is added to the JFrame.
 	 * @since 2018
 	 */
 	public void makeSidebar() {
@@ -108,7 +119,7 @@ public class MainWindows extends JFrame {
 		JButton btnFacebookPost = new JButton("Facebook Post");
 		panelLeft.add(btnFacebookPost);
 
-		JButton btnElearning = new JButton("E-Learning");
+		btnElearning = new JButton("E-Learning");
 //		btnElearning.setBackground(new Color(224, 255, 255));
 		panelLeft.add(btnElearning);
 
@@ -136,11 +147,11 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * Constructs a JPanel with 1 JLabel as title and a JTable surrounded by a
+	 * JScrollPanel. The JTable has the timeline of every Facebook posts, Twitter
+	 * posts, E-mail received within 24 hours. That JPanel is added to the JFrame.
+	 * 
 	 * @author ajcvo-iscteiul
-	 * @description Constructs a JPanel with 1 JLabel as title and a JTable
-	 *              surrounded by a JScrollPanel. The JTable has the timeline of
-	 *              every Facebook posts, Twitter posts, E-mail received within 24
-	 *              hours. That JPanel is added to the JFrame.
 	 * @since 2018
 	 */
 	public void makeCenterPanel() {
@@ -181,8 +192,9 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * Adds a row to the timeline JTable. Each row is a notification.
+	 * 
 	 * @author ajcvo-iscteiul
-	 * @description Adds a row to the timeline JTable. Each row is a notification.
 	 * @since 2018
 	 */
 	public void addNotification(String data, String canal, String origem, String assunto) {
@@ -192,9 +204,9 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * Removes a row to the timeline JTable. Each row is a notification.
+	 * 
 	 * @author ajcvo-iscteiul
-	 * @description Removes a row to the timeline JTable. Each row is a
-	 *              notification.
 	 * @since 2018
 	 */
 	public void removeNotification(int row) {
@@ -204,8 +216,9 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * Maximizes MainWindows.
+	 * 
 	 * @author ajcvo-iscteiul
-	 * @description Maximizes MainWindows.
 	 * @since 2018
 	 */
 	public void maximizeWindow() {
@@ -213,8 +226,9 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * Defines the actionListner of the "Responder" button.
+	 * 
 	 * @author ajcvo-iscteiul
-	 * @description Defines the actionListner of the "Responder" button.
 	 * @since 2018
 	 */
 	public void responderListener() {
@@ -242,8 +256,29 @@ public class MainWindows extends JFrame {
 	}
 
 	/**
+	 * Defines the actionListner of the "elearning" button.
+	 * 
 	 * @author ajcvo-iscteiul
-	 * @description Return the JTable of the Timeline.
+	 * @since 2018
+	 */
+	public void elearningListener() {
+		btnElearning.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Desktop browser = Desktop.getDesktop();
+				try {
+					browser.browse(new URI("https://e-learning.iscte-iul.pt"));
+				} catch (IOException e1) {
+				} catch (URISyntaxException e1) {
+				}
+			}
+		});
+	}
+
+	/**
+	 * Return the JTable of the Timeline.
+	 * @author ajcvo-iscteiul
 	 * @since 2018
 	 */
 	public JTable getTimelineTable() {
