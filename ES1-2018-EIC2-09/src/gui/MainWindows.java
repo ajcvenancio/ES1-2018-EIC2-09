@@ -11,6 +11,8 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,6 +31,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import config.SiteLogin;
+import javax.swing.JTextField;
+
 /**
  * This java file contains class that constructs the Main Windows of the APP.
  * JFrame is extended. Graphical User Interface (GUI)
@@ -43,7 +48,10 @@ public class MainWindows extends JFrame {
 	private JPanel panelCenter;
 	private JButton btnResponder;
 	private JButton btnElearning;
+	private JButton btnFenix;
+	private JButton btnRefresh;
 	private JComboBox<String> cbFilter;
+	private JTextField txtProcurar;
 
 	public MainWindows() {
 		setResizable(false);
@@ -52,11 +60,15 @@ public class MainWindows extends JFrame {
 		makeCenterPanel();
 		responderListener();
 		elearningListener();
+		fenixListener();
 		finalSettings();
+		procurarFocusListener();
+		procurarEnterListener();
 	}
 
 	/**
 	 * This method sets the title and the sizer (x,y) of the JFrame.
+	 * 
 	 * @param
 	 * @author ajcvo-iscteiul
 	 * @since 2018
@@ -100,8 +112,7 @@ public class MainWindows extends JFrame {
 		JLabel iscteLabel = new JLabel();
 		panelLeft.add(iscteLabel);
 		iscteLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		ImageIcon iscteIcon = new ImageIcon(
-				"C:\\Users\\User\\Desktop\\ISCTE\\3A_1S\\ES1\\git\\ES1-2018-EIC2-09\\ES1-2018-EIC2-09\\imageIscte2.png");
+		ImageIcon iscteIcon = new ImageIcon("imageIscte2.png");
 		Image iscteImage = iscteIcon.getImage();
 		Image iscteImageRescaled = iscteImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
 		ImageIcon iscteIconRescaled = new ImageIcon(iscteImageRescaled);
@@ -117,17 +128,15 @@ public class MainWindows extends JFrame {
 		panelLeft.add(btnFacebookPost);
 
 		btnElearning = new JButton("E-Learning");
-//		btnElearning.setBackground(new Color(224, 255, 255));
 		panelLeft.add(btnElearning);
 
-		JButton btnFenix = new JButton("F\u00E9nix");
+		btnFenix = new JButton("F\u00E9nix");
 		panelLeft.add(btnFenix);
-		
+
 		cbFilter = new JComboBox<String>();
 		cbFilter.setBackground(Color.WHITE);
 		addFilterItems();
 		panelLeft.add(cbFilter);
-		
 
 		JLabel label = new JLabel("");
 		panelLeft.add(label);
@@ -175,12 +184,13 @@ public class MainWindows extends JFrame {
 		// scrollPane.setBorder(new LineBorder(new Color(105, 105, 105)));
 		panelCenter.add(timelineTableScrollPane);
 
-		DefaultTableModel tableModel = new DefaultTableModel(null, new Object[] { "Data", "Canal", "Origem", "Assunto" });
-		
+		DefaultTableModel tableModel = new DefaultTableModel(null,
+				new Object[] { "Data", "Canal", "Origem", "Assunto" });
+
 		timelineTable = new JTable(tableModel) {
-			public boolean isCellEditable(int row, int column){
-		        return false;
-		   }
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
 		};
 		// table.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		timelineTable.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -193,13 +203,26 @@ public class MainWindows extends JFrame {
 		itemContent.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		itemContent.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		itemContent.setEditable(false);
+		itemContent.setLineWrap(true);
+		itemContent.setWrapStyleWord(true);
 		panelCenter.add(itemContent);
 
 		btnResponder = new JButton("Responder");
 		btnResponder.setBounds(358, 710, 138, 42);
 		panelCenter.add(btnResponder);
 
-		addNotification("data", "E-mail", "origem", "assunto");
+		btnRefresh = new JButton("Refresh");
+		btnRefresh.setBounds(728, 13, 97, 25);
+		panelCenter.add(btnRefresh);
+
+		txtProcurar = new JTextField();
+		txtProcurar.setText("Procurar");
+		txtProcurar.setToolTipText("Procurar");
+		txtProcurar.setBounds(46, 13, 196, 22);
+		panelCenter.add(txtProcurar);
+		txtProcurar.setColumns(10);
+
+		addNotification("data", "E-mail", "origem", "assunto", null);
 	}
 
 	/**
@@ -208,7 +231,7 @@ public class MainWindows extends JFrame {
 	 * @author ajcvo-iscteiul
 	 * @since 2018
 	 */
-	public void addNotification(String data, String canal, String origem, String assunto) {
+	public void addNotification(String data, String canal, String origem, String assunto, String conteudo) {
 		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
 		model.addRow(new Object[] { data, canal, origem, assunto });
 		panelCenter.repaint();
@@ -277,25 +300,77 @@ public class MainWindows extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Desktop browser = Desktop.getDesktop();
-				try {
-					browser.browse(new URI("https://e-learning.iscte-iul.pt"));
-				} catch (IOException e1) {
-				} catch (URISyntaxException e1) {
-				}
+//				Desktop browser = Desktop.getDesktop();
+//				try {
+//					browser.browse(new URI("https://e-learning.iscte-iul.pt"));
+//				} catch (IOException e1) {
+//				} catch (URISyntaxException e1) {
+//				}
+				SiteLogin elearninglogin = new SiteLogin("ze", "asfsaas");
+				elearninglogin.runElearning();
 			}
 		});
 	}
 
+	public void fenixListener() {
+		btnFenix.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SiteLogin fenixlogin = new SiteLogin("ze", "fasddsa");
+				fenixlogin.runFenix();
+			}
+		});
+	}
+
+	public void refreshListener() {
+		btnRefresh.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// ACTUALIZAR AS NOTIFICAÇÕES
+			}
+		});
+	}
+
+	public void procurarFocusListener() {
+		txtProcurar.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (txtProcurar.getText().equals(""))
+					txtProcurar.setText("Procurar");
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (txtProcurar.getText().equals("Procurar"))
+					txtProcurar.setText("");
+			}
+		});
+	}
+	
+	public void procurarEnterListener() {
+		if(txtProcurar.isCursorSet()) {
+			txtProcurar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//AO CLICAR NO ENTER, PROCURAR ALGUMA COISA
+				}
+			});
+		}
+	}
+
 	/**
 	 * Return the JTable of the Timeline.
+	 * 
 	 * @author ajcvo-iscteiul
 	 * @since 2018
 	 */
 	public JTable getTimelineTable() {
 		return timelineTable;
 	}
-	
+
 	public void addFilterItems() {
 		cbFilter.addItem("No Filter");
 		cbFilter.addItem("E-mail");

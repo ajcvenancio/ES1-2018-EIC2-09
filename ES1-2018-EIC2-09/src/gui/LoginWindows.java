@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -26,9 +27,10 @@ import javax.swing.SwingConstants;
  */
 public class LoginWindows extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
+	private JTextField emailField;
 	private JPasswordField passwordField;
 	private JButton btnLogin;
+	private boolean autenticated = false;
 
 	/**
 	 * This constructor makes the Login Windows. All the components are added in
@@ -46,16 +48,17 @@ public class LoginWindows extends JFrame {
 		getContentPane().add(logo);
 		logo.setHorizontalAlignment(SwingConstants.CENTER);
 		ImageIcon iscteIcon = new ImageIcon(
-				"C:\\Users\\User\\Desktop\\ISCTE\\3A_1S\\ES1\\git\\ES1-2018-EIC2-09\\ES1-2018-EIC2-09\\imageIscte2.png");
+				"imageIscte2.png");
 		Image iscteImage = iscteIcon.getImage();
 		Image iscteImageRescaled = iscteImage.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
 		ImageIcon iscteIconRescaled = new ImageIcon(iscteImageRescaled);
 		logo.setIcon(iscteIconRescaled);
 
-		textField = new JTextField();
-		textField.setBounds(84, 208, 261, 22);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		emailField = new JTextField("");
+		emailField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		emailField.setBounds(84, 208, 261, 30);
+		getContentPane().add(emailField);
+		emailField.setColumns(10);
 
 		JLabel lblEmail = new JLabel("E-mail");
 		lblEmail.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -67,8 +70,9 @@ public class LoginWindows extends JFrame {
 		lblPassword.setBounds(94, 251, 73, 16);
 		getContentPane().add(lblPassword);
 
-		passwordField = new JPasswordField();
-		passwordField.setBounds(84, 280, 261, 22);
+		passwordField = new JPasswordField("");
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		passwordField.setBounds(84, 280, 261, 30);
 		getContentPane().add(passwordField);
 
 		btnLogin = new JButton("LOGIN");
@@ -77,8 +81,7 @@ public class LoginWindows extends JFrame {
 		getContentPane().add(btnLogin);
 
 		loginListener();
-		
-		
+
 	}
 
 	/**
@@ -90,12 +93,42 @@ public class LoginWindows extends JFrame {
 	public void loginListener() {
 		btnLogin.addActionListener(new ActionListener() {
 
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				MainWindows mainWindows = new MainWindows();
+				if (!emailField.getText().equals("") && (passwordField.getPassword().length != 0)) {
+					doLogin();
+					if (autenticated) {
+						dispose();
+						MainWindows mainWindows = new MainWindows();
+					} else {
+						JOptionPane.showMessageDialog(null, "Credenciais inválidas", "ERRO!",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Credenciais inválidas", "ERRO!",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
+	}
+
+	public void doLogin() {
+		/*
+		 * FAZES AS CENAS DO EMAIL AQUI E NO FIM O AUTENTICATED = TRUE
+		 *
+		 * //
+		 */
+		autenticated = true;
+	}
+
+	public void autenticate() {
+
 	}
 
 	/**
@@ -114,7 +147,7 @@ public class LoginWindows extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
-	
+
 	public static void main(String[] args) {
 		LoginWindows lw = new LoginWindows();
 		lw.init("Login - Bom dia Academia", 430, 550);

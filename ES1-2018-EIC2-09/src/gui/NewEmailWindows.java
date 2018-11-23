@@ -15,13 +15,16 @@ import javax.swing.border.LineBorder;
 
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- * This java file contains class that constructs the New Email
- *              Windows of the APP. JFrame is extended.
+ * This java file contains class that constructs the New Email Windows of the
+ * APP. JFrame is extended.
+ * 
  * @author ajcvo-iscteiul
  * @category Graphical User Interface (GUI)
  * @since 2018
@@ -29,8 +32,9 @@ import javax.swing.SwingConstants;
  */
 public class NewEmailWindows extends JFrame {
 
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtEndercoDestino;
+	private JTextField txtAssunto;
+	private JTextArea conteudoDaResposta;
 
 	/**
 	 * Constructor of the NewEmailWindows that receives an E-mail adress as a
@@ -53,19 +57,19 @@ public class NewEmailWindows extends JFrame {
 		lblEndereoDestino.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		panelUp.add(lblEndereoDestino);
 
-		textField = new JTextField(origem);
-		textField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		panelUp.add(textField);
-		textField.setColumns(10);
+		txtEndercoDestino = new JTextField(origem);
+		txtEndercoDestino.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		panelUp.add(txtEndercoDestino);
+		txtEndercoDestino.setColumns(10);
 
 		JLabel lblAssunto = new JLabel("                  Assunto:");
 		lblAssunto.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		panelUp.add(lblAssunto);
 
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		panelUp.add(textField_1);
-		textField_1.setColumns(10);
+		txtAssunto = new JTextField();
+		txtAssunto.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		panelUp.add(txtAssunto);
+		txtAssunto.setColumns(10);
 
 		JPanel panelDown = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panelDown.getLayout();
@@ -79,15 +83,42 @@ public class NewEmailWindows extends JFrame {
 		getContentPane().add(panelMiddle, BorderLayout.CENTER);
 		panelMiddle.setLayout(null);
 
-		JTextArea conteudoDaResposta = new JTextArea();
+		conteudoDaResposta = new JTextArea();
 		conteudoDaResposta.setForeground(Color.GRAY);
-		conteudoDaResposta.setFont(new Font("Monospaced", Font.ITALIC, 13));
-		conteudoDaResposta.setText("Corpo do e-mail...");
+		conteudoDaResposta.setText("Inserir texto...");
 		conteudoDaResposta.setBounds(12, 13, 658, 473);
+		conteudoDaResposta.setFont(new Font("Monospaced", Font.PLAIN, 19));
 		conteudoDaResposta.setBorder(new LineBorder(new Color(105, 105, 105)));
+		conteudoDaResposta.setLineWrap(true);
+		conteudoDaResposta.setWrapStyleWord(true);
 		panelMiddle.add(conteudoDaResposta);
 
+		conteudoDaRespostaFocusListener();
+
 		setVisible(true);
+	}
+
+	public void conteudoDaRespostaFocusListener() {
+		conteudoDaResposta.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (conteudoDaResposta.getText().equals("")) {
+					conteudoDaResposta.setText("Inserir texto...");
+					conteudoDaResposta.setFont(new Font("Monospaced", Font.PLAIN, 19));
+					conteudoDaResposta.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (conteudoDaResposta.getText().equals("Inserir texto...")) {
+					conteudoDaResposta.setText("");
+					conteudoDaResposta.setFont(new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 19));
+					conteudoDaResposta.setForeground(Color.BLACK);
+				}
+			}
+		});
 	}
 
 	/**
