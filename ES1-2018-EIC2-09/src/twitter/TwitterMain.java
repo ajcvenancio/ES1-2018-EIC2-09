@@ -72,14 +72,28 @@ public final class TwitterMain  {
 		String date = dateInString.split(" ")[2] + "-" + dateInString.split(" ")[1] + "-" + dateInString.split(" ")[5] +"  Time: "+ dateInString.split(" ")[3] ;
 		return date;
 	}
-	/*
+	
+	private void Post(String data){
+		try {
+			this.twitter.updateStatus(data);
+		} catch (TwitterException e) {
+			System.out.println("ERRO IMPOSSIVEL ATUALIZAR ESTADO");
+		}
+	}
+	
 	public static void main(String[] args) {
 		TwitterMain t=new TwitterMain();
-		for(Notification s : t.getStatuses("ISCTE")){
+		try {
+			t.twitter.updateStatus("TESTE");
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*for(Notification s : t.getStatuses("ISCTE")){
 			System.out.println();
 			System.out.println(s.toString());
-		}	
+		}*/	
 	}
-	*/
+	
 }
     

@@ -22,5 +22,6 @@ public class TwitterMainTest {
 		assertEquals("All must be from ISCTE","ISCTE-IUL",n.getSource());
 	}
 	
+	
 
 }
