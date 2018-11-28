@@ -9,12 +9,16 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -32,9 +36,15 @@ import javax.swing.SwingConstants;
  */
 public class NewEmailWindows extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtEndercoDestino;
 	private JTextField txtAssunto;
 	private JTextArea conteudoDaResposta;
+	private JScrollPane conteudoDaRespostaScrollPane;
+	private JButton btnResponder;
 
 	/**
 	 * Constructor of the NewEmailWindows that receives an E-mail adress as a
@@ -76,7 +86,7 @@ public class NewEmailWindows extends JFrame {
 		flowLayout.setVgap(20);
 		getContentPane().add(panelDown, BorderLayout.SOUTH);
 
-		JButton btnResponder = new JButton("RESPONDER");
+		btnResponder = new JButton("RESPONDER");
 		panelDown.add(btnResponder);
 
 		JPanel panelMiddle = new JPanel();
@@ -88,12 +98,16 @@ public class NewEmailWindows extends JFrame {
 		conteudoDaResposta.setText("Inserir texto...");
 		conteudoDaResposta.setBounds(12, 13, 658, 473);
 		conteudoDaResposta.setFont(new Font("Monospaced", Font.PLAIN, 19));
-		conteudoDaResposta.setBorder(new LineBorder(new Color(105, 105, 105)));
+//		conteudoDaResposta.setBorder(new LineBorder(new Color(105, 105, 105)));
 		conteudoDaResposta.setLineWrap(true);
 		conteudoDaResposta.setWrapStyleWord(true);
-		panelMiddle.add(conteudoDaResposta);
+		conteudoDaRespostaScrollPane = new JScrollPane(conteudoDaResposta);
+		conteudoDaRespostaScrollPane.setBounds(12, 13, 658, 473);
+//		panelMiddle.add(conteudoDaResposta);
+		panelMiddle.add(conteudoDaRespostaScrollPane);
 
 		conteudoDaRespostaFocusListener();
+		responderListener();
 
 		setVisible(true);
 	}
@@ -116,6 +130,28 @@ public class NewEmailWindows extends JFrame {
 					conteudoDaResposta.setText("");
 					conteudoDaResposta.setFont(new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 19));
 					conteudoDaResposta.setForeground(Color.BLACK);
+				}
+			}
+		});
+	}
+
+	public void responderListener() {
+		btnResponder.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!conteudoDaResposta.getText().equals("Inserir texto...")
+						&& !conteudoDaResposta.getText().equals("")) {
+					int optionChoosed = JOptionPane.showConfirmDialog(null, "Enviar e-mail?",
+							"Aviso", JOptionPane.YES_NO_OPTION);
+					if (optionChoosed == JOptionPane.YES_OPTION) {
+						// FAZER O QUE TEM A FAZER E O DISPOSE FECHA A JANELA NO FIM
+						dispose();
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Adicione algum texto ao seu e-mail", "ERRO!",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});

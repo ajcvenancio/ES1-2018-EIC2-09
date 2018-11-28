@@ -81,6 +81,7 @@ public class LoginWindows extends JFrame {
 		getContentPane().add(btnLogin);
 
 		loginListener();
+		init("Login - Bom dia Academia", 430, 550);
 
 	}
 
@@ -150,6 +151,6 @@ public class LoginWindows extends JFrame {
 
 	public static void main(String[] args) {
 		LoginWindows lw = new LoginWindows();
-		lw.init("Login - Bom dia Academia", 430, 550);
+//		lw.init("Login - Bom dia Academia", 430, 550);
 	}
 }

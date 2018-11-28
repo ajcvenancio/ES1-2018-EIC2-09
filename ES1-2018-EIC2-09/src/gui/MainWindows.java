@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -13,9 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,12 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import config.SiteLogin;
-import javax.swing.JTextField;
 
 /**
  * This java file contains class that constructs the Main Windows of the APP.
@@ -50,8 +46,11 @@ public class MainWindows extends JFrame {
 	private JButton btnElearning;
 	private JButton btnFenix;
 	private JButton btnRefresh;
+	private JButton btnLogoff;
+	private JButton btnSair;
 	private JComboBox<String> cbFilter;
 	private JTextField txtProcurar;
+	private JScrollPane itemContentScrollPane;
 
 	public MainWindows() {
 		setResizable(false);
@@ -64,6 +63,10 @@ public class MainWindows extends JFrame {
 		finalSettings();
 		procurarFocusListener();
 		procurarEnterListener();
+		filterListener();
+		refreshListener();
+		logOffListener();
+		sairListener();
 	}
 
 	/**
@@ -147,12 +150,12 @@ public class MainWindows extends JFrame {
 //		JLabel label_2 = new JLabel("");
 //		panelLeft.add(label_2);
 
-		JButton btnLogoff = new JButton("Log Off");
+		btnLogoff = new JButton("Log Off");
 		btnLogoff.setBackground(new Color(255, 255, 255));
 		btnLogoff.setBorderPainted(true);
 		panelLeft.add(btnLogoff);
 
-		JButton btnSair = new JButton("Sair");
+		btnSair = new JButton("Sair");
 		btnSair.setBackground(new Color(255, 255, 255));
 		btnSair.setBorderPainted(true);
 		panelLeft.add(btnSair);
@@ -200,12 +203,15 @@ public class MainWindows extends JFrame {
 
 		JTextArea itemContent = new JTextArea();
 		itemContent.setBounds(46, 319, 779, 378);
-		itemContent.setBorder(new LineBorder(SystemColor.controlDkShadow));
+//		itemContent.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		itemContent.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		itemContent.setEditable(false);
 		itemContent.setLineWrap(true);
 		itemContent.setWrapStyleWord(true);
-		panelCenter.add(itemContent);
+		itemContentScrollPane = new JScrollPane(itemContent);
+		itemContentScrollPane.setBounds(46, 319, 779, 378);
+//		panelCenter.add(itemContent);
+		panelCenter.add(itemContentScrollPane);
 
 		btnResponder = new JButton("Responder");
 		btnResponder.setBounds(358, 710, 138, 42);
@@ -300,12 +306,6 @@ public class MainWindows extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				Desktop browser = Desktop.getDesktop();
-//				try {
-//					browser.browse(new URI("https://e-learning.iscte-iul.pt"));
-//				} catch (IOException e1) {
-//				} catch (URISyntaxException e1) {
-//				}
 				SiteLogin elearninglogin = new SiteLogin("ze", "asfsaas");
 				elearninglogin.runElearning();
 			}
@@ -328,7 +328,7 @@ public class MainWindows extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// ACTUALIZAR AS NOTIFICAÇÕESs
+				// ACTUALIZAR AS NOTIFICAÇÕES
 			}
 		});
 	}
@@ -359,6 +359,51 @@ public class MainWindows extends JFrame {
 				}
 			});
 		}
+	}
+	
+	public void filterListener() {
+		cbFilter.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(cbFilter.getSelectedItem().equals("No Filter")) {
+					//MOSTRAR TUDO
+				} else if(cbFilter.getSelectedItem().equals("E-mail")) {
+					//MOSTRAR DO E-MAIL
+				} else if(cbFilter.getSelectedItem().equals("Facebook")) {
+					//MOSTRAR DO FACEBOOK
+				} else {
+					//MOSTRAR DO TWITTER
+				}
+			}
+		});
+	}
+	
+	public void logOffListener() {
+		btnLogoff.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int optionChoosed = JOptionPane.showConfirmDialog(null, "Tem a certeza que pretende fazer log off?", "Aviso", JOptionPane.YES_NO_OPTION);
+				if(optionChoosed == JOptionPane.YES_OPTION) {
+					dispose();
+					LoginWindows loginWindows = new LoginWindows();
+				}
+			}
+		});
+	}
+	
+	public void sairListener() {
+		btnSair.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int optionChoosed = JOptionPane.showConfirmDialog(null, "Tem a certeza que pretende sair?", "Aviso", JOptionPane.YES_NO_OPTION);
+				if(optionChoosed == JOptionPane.YES_OPTION) {
+					dispose();
+				}
+			}
+		});
 	}
 
 	/**
