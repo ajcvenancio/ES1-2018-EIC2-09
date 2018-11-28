@@ -29,7 +29,7 @@ public class SerializedCredentials {
 		String xml = xStream.toXML(credentials);
 		File config = new File("config.xml");
 		xStream.toXML(credentials, new PrintWriter(config));
-		// Deserializar
+		// Deserializar_
 		Credentials newCredentials = (Credentials) xStream.fromXML(config);
 
 		System.out.println("Email : " + newCredentials.getEmail());
