@@ -7,6 +7,19 @@ import java.io.PrintWriter;
 import com.thoughtworks.xstream.XStream;
 
 public class SerializedCredentials {
+	
+	XStream xs;
+	
+	public SerializedCredentials() {
+		xs = new XStream();
+	}
+	
+	public void writeToXML(Credentials credentials) throws FileNotFoundException {
+		xs.alias("credentials", Credentials.class);
+		String xml = xs.toXML(credentials);
+		File config = new File("config.xml");
+		xs.toXML(credentials, new PrintWriter(config));
+	}
 
 	public static void main(String[] args) throws FileNotFoundException {
 		XStream xStream = new XStream();

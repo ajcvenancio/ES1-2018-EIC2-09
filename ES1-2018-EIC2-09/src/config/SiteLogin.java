@@ -44,13 +44,13 @@ public class SiteLogin {
 			driver.manage().window().maximize();
 
 			driver.navigate().to("https://fenix.iscte-iul.pt/loginPage.jsp");
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
 			driver.findElement(By.cssSelector("#username")).sendKeys(user);
 			driver.findElement(By.cssSelector("#password")).sendKeys(pw);
 			driver.findElement(By.name("ok")).click();
 
-			driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
 		} catch (UnreachableBrowserException e) {
 			quit();
 		}
