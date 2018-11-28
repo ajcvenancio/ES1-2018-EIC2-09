@@ -328,7 +328,7 @@ public class MainWindows extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// ACTUALIZAR AS NOTIFICAÇÕES
+				// ACTUALIZAR AS NOTIFICAÇÕESs
 			}
 		});
 	}
