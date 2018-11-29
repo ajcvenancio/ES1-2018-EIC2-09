@@ -171,6 +171,7 @@ public class email {
 					String text = getTextFromMessage(foundMessages[i]);
 					Notification notification = new Notification("E-mail", date, source, subject, text);
 					receivedEmail.add(notification);
+					mainWindow.addNotification(/* date, "email", source, subject */notification);
 				
 				}else {
 					break;					
@@ -462,7 +463,26 @@ public class email {
 
 	}
 
+	/**
+	 * 
+	 * This method is a getter for the attribute store
+	 * 
+	 * @return Store
+	 */
+
+	public Store getStore() {
+		return store;
+	}
 	
+	/**
+	 * 
+	 * This method is a getter for the attribute username
+	 * 
+	 * @return Store
+	 */
+	public String getUsername() {
+		return username;
+	}
 	
 	/**
 	 * This method is used to get the Text from an email in a String format. If the message is multipart
@@ -507,6 +527,16 @@ public class email {
 			}
 		}
 		return text;
+	}
+	
+	/**
+	 * This method is a setter for the class attributte mainWindow
+	 * 
+	 * @param MainWindows - this class main application window
+	 * 
+	 */
+	public void setMainWindow(MainWindows mainWindow) {
+		this.mainWindow = mainWindow;
 	}
 	
 	/**
