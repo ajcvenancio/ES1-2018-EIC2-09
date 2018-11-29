@@ -2,18 +2,21 @@ package email;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
+import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,41 +31,58 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import gui.MainWindows;
+import twitter.Notification;
+
 /**
  * 
- * @author jhmsa-iscteiul
  * 
- *         A seguinte classe é utilizada para enviar email do email do utilizador para
- *         um email a escolha e mostrar a inbox do email do utilizador. Na classe seguinte também é possivel manipular o ficheiro XML "config.xml"
- *
+ * 
+ * 
+ * This class is used by the application so that the user can send and see his
+ * daily email's and as also some other methods that allow the manipulation of
+ * the XML file "config.xml".
+ * 
+ * @author jhmsa-iscteiul
+ * @since 2018
  */
 
 public class email {
 	private Store store;
 	private static File file = new File("config.xml");
 	private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	private String username;
+	private String password;
+	public MainWindows mainWindow;
+	private ArrayList<Notification> receivedEmail;
 
+
+	public email(String username, String password) {
+		this.username = username;
+		this.password = password;
+		 addCredentials();
+		 
+//		connect();
+//		searchEmail();
+		System.out.println(getDate());
+	}
+
+	
 	/**
-
-	 * 
-	 *  O método connect() executa a ligação aos servidores do Outlook, indo após a conecção
-	 * buscar todos os emails da pasta Inbox do email do utilizador, colocando-os
-	 * num Array É também invocada uma função que imprime informação dos emails na
-	 * consola
 	 * 
 	 * 
-	 * @param username
-	 *            Este parametro é o endereço de email do utlizador
-	 * @param password
-	 *            Este parametro é a password do endereço de email do utlizador
-	 * @exception NoSuchProviderException
+	 * This method does the connection to the Outlook servers and id the user doens't 
+	 * have already his credentials saved in the XML file "config.xml" the method invokes 
+	 * the method that saves the credentials in that XML file.
+	 
 	 * @exception MessagingException
 	 */
 
-	protected void connect(String username, String password) {
+	protected void connect(/* String username, String password */) {
 		Properties properties = new Properties();
 
 		properties.put("mail.imap.host", "imap-mail.outlook.com");
@@ -81,29 +101,30 @@ public class email {
 			store.connect(username, password);
 			System.out.println("Conectou");
 
-			if (!isRegistered(username, password))
-				addCredentials(username, password);
-
+			if (!isRegistered(/* username, password */))
+				addCredentials(/* username, password */);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 
 	}
+
 	/**
 	 * 
-	 * 	Este método searchEmail() permite obter todos os emails da pasta INBOX do utilizador. É invocado o método showInbox() que imprime informação 
-	 * se todos os email na consola
+	 * This method searches all users email's from his IXBOX folder and the INBOX folder isn't empty
+	 * this method invokes the method that stores the email's into an ArrayList. 
 	 * 
 	 * 
-	 * @param username Este parametro é o endereço de email do utlizador
-	 * @param password Este parametro é a password do endereço de email do utlizador
+	 * @param username
+	 *            User email address
+	 * @param password
+	 *            Password from the user email address
 	 * 
 	 * @exception MessagingException
 	 * 
-	 * */
+	 */
 
-	public void searchEmail(String username, String password) {
-
+	public void searchEmail(/* String username, String password */) {
 		try {
 
 			/* open Inbox folder */
@@ -113,71 +134,134 @@ public class email {
 			Message[] foundMessages = folderInbox.getMessages();
 			if (foundMessages.length == 0) {
 				System.out.println("Your Inbox is empty!");
-			} else {
-				showInbox(foundMessages);
+			} 
+			else {
+				 receivedEmail = addEmailList(foundMessages);
+//				showInbox(foundMessages);
 			}
 
 			folderInbox.close(false);
 			// store.close();
-	
+
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-
 	}
-
-
+	
 	/**
 	 * 
-	 * 	O método showInbox() imprime na consola o emissor do email, o Assunto e a data
-	 * de envio
-	 *
-	 * @param foundMessages Array com todas as Mensagens da pasta Inbox do utilizador
-	 * @exception MessagingException
-	 *
+	 * 
+	 * This method is used to add an email to the main window of the application and Store that email
+	 * into an ArrayList of Notification
+	 * 
+	 * @param foundMessage - Array with all of the received emails
+	 * 
+	 * @return String with the source of an email received
+	 * 
 	 */
-	private void showInbox(Message[] foundMessages) {
-		for (int i = foundMessages.length - 1; i >= 0; i--) {
-			Message message = foundMessages[i];
-			try {
-				System.out.println("From: " + message.getFrom()[0]);
-				System.out.println("Subject: " + message.getSubject());
-
-				System.out.println("Date: " + message.getSentDate());
-
-				System.out.println("");
-				System.out.println("------------: " + i + ":---------------");
-			} catch (MessagingException e) {
-				e.printStackTrace();
+	private ArrayList<Notification> addEmailList(Message[] foundMessages) {
+		receivedEmail = new ArrayList<>();
+		try {
+			for (int i = foundMessages.length - 1; i >= 0; i--) {
+				if (foundMessages[i].getReceivedDate().after(getDate())) {
+					
+					String date = foundMessages[i].getReceivedDate().toString();
+					String source = getSource(foundMessages[i])/* foundMessages[i].getFrom()[0] */;
+					String subject = foundMessages[i].getSubject();
+					String text = getTextFromMessage(foundMessages[i]);
+					Notification notification = new Notification("E-mail", date, source, subject, text);
+					receivedEmail.add(notification);
+				
+				}else {
+					break;					
+				}
+				System.out.println(i);
 			}
-
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
+		System.out.println("chega");
+		return receivedEmail;
 	}
+	/**
+	 * 
+	 * 
+	 * This method is used to convert an array with all the senders froma received email
+	 * into a String to show in the application
+	 * 
+	 * @param Message message email receiver
+	 * 
+	 * @return String with the source of an email received
+	 * 
+	 */
+	
+	private String getSource(Message message) {
+		String source = "";
+		try {
+			for (int i = 0; i < message.getFrom().length; i++) {
+				source += message.getFrom()[i];
+			}
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return source;
+	}
+
+//	/**
+//	 * 
+//	 * O método showInbox() imprime na consola o emissor do email, o Assunto e a
+//	 * data de envio
+//	 *
+//	 * @param foundMessages
+//	 *            Array com todas as Mensagens da pasta Inbox do utilizador
+//	 * @exception MessagingException
+//	 *
+//	 */
+//	private void showInbox(Message[] foundMessages) {
+//		for (int i = foundMessages.length - 1; i >= 0; i--) {
+//			Message message = foundMessages[i];
+//			try {
+//				System.out.println("From: " + message.getFrom()[0]);
+//				System.out.println("Subject: " + message.getSubject());
+//
+//				System.out.println("Date: " + message.getSentDate());
+//
+//				System.out.println("");
+//				System.out.println("------------: " + i + ":---------------");
+//
+//			} catch (MessagingException e) {
+//				e.printStackTrace();
+//			}
+//
+//		}
+//
+//	}
 
 	/**
 	 * 
 	 * 
-	 * 	O método send() inicialmente executa a conecção com o servidor do Outlook,
-	 * realizando autenticação do Utilizador e posteriormente é criada a mensagem a
-	 * enviar e é feito o seu envio.
+	 * This method is used to send an email to other user. To send the email firstly the method
+	 * authenticates the user and then sends the email
 	 * 
-	 * @param receiverEmail
-	 *            Endereço email destino
+	 * @param receiverEmail Recipient email addredd
+	 *            
 	 * @param username
-	 *            Endereço de email do Utilizador
+	 *            Sender email address
 	 * @param password
-	 *            Password do endereço de email do Utilizador
+	 *            Password from the user email address
 	 * @param subject
-	 *            Assunto do email a enviar
+	 *            subject to be sent in the email
 	 * @param msg
-	 *            Corpo da mensagem a enviar no email
-	 *	
+	 *            body text to be sent in the email
+	 * 
 	 * @exception MessagingException
 	 * 
 	 */
 
-	public void send(String receiverEmail, String username, String password, String subject, String msg) {
+	public void send(String receiverEmail, String username, /* String password, */ String subject, String msg) {
 
 		// ************************************
 		// ********** Properties **************
@@ -220,13 +304,13 @@ public class email {
 	}
 
 	/**
-	 * 	O método addCredentials() permite adicionar credenciais ao ficheiro XML "config.xml"
 	 * 
+	 * This method is used to add credentials from an user to the XML file "config.xml"
 	 * 
 	 * @param username
-	 *            Este parametro é o endereço de email do utlizador
+	 *            User email address
 	 * @param password
-	 *            Este parametro é a password do endereço de email do utlizador
+	 *            Password from the user email address
 	 *
 	 * @exception SAXException
 	 * @exception IOException
@@ -235,19 +319,19 @@ public class email {
 	 * @exception TransformerException
 	 * 
 	 */
-	
-	protected void addCredentials(String username, String password) {
-		if (!isRegistered(username, password)) {
+
+	protected void addCredentials(/* String username, String password */) {
+		if (!isRegistered(/* username, password */)) {
 			try {
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				Document xmlDoc = builder.parse(file);
 
-				Element root = xmlDoc.getDocumentElement();
+				NodeList root = xmlDoc.getElementsByTagName("Credentials");
 
 				Element credential = xmlDoc.createElement("credential");
 				credential.setAttribute("Username", username);
 				credential.setAttribute("Password", password);
-				root.appendChild(credential);
+				root.item(0).appendChild(credential);
 
 				DOMSource source = new DOMSource(xmlDoc);
 
@@ -271,22 +355,22 @@ public class email {
 
 		}
 	}
-	
+
 	/**
 	 * 
-	 * 	O método isRegistered() permite verificar se um utilizador tem as suas credenciais no ficheiro XML "config.xml"
+	 * This method verifies if the user is already registered in XML file "config.xml"
 	 * 
 	 * 
 	 * @param username
-	 *            Este parametro é o endereço de email do utlizador
+	 *            User email address
 	 * @param password
-	 *            Este parametro é a password do endereço de email do utlizador
-	 *
+	 *            Password from the user email address
+	 *            
 	 * @exception SAXException
 	 * @exception IOException
 	 * 
 	 */
-	protected boolean isRegistered(String username, String password) {
+	protected boolean isRegistered(/* String username, String password */) {
 
 		try {
 
@@ -316,15 +400,15 @@ public class email {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * 	O método deleteCredentials() permite remover as credenciais de um utilizador do ficheiro XML "config.xml"
+	 * This method is used to delete user credentials from the XML file "config.xml"
 	 * 
 	 * 
-	 * @param username
-	 *            Este parametro é o endereço de email do utlizador
-	 * @param password
-	 *            Este parametro é a password do endereço de email do utlizador
+	 * @param username -
+	 *            User email address
+	 * @param password -
+	 *            Password from the user email address
 	 *
 	 * @exception SAXException
 	 * @exception IOException
@@ -333,8 +417,8 @@ public class email {
 	 * @exception TransformerException
 	 * 
 	 */
-	protected void deleteCredentials(String username, String password) {
-		if (isRegistered(username, password)) {
+	protected void deleteCredentials(/* String username, String password */) {
+		if (isRegistered(/* username, password */)) {
 			try {
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				Document xmlDoc = builder.parse(file);
@@ -377,30 +461,81 @@ public class email {
 		}
 
 	}
+
+	
 	
 	/**
+	 * This method is used to get the Text from an email in a String format. If the message is multipart
+	 * the method invokes other method to translate the parameter from Message to String
 	 * 
-	 * Este método é um getter do atributo Store
-	 * 
-	 * @return o atributo Store
+	 * @param Message - message to be "translated" from Message to String 
+	 * @return email content in a String format
 	 */
 
-	public Store getStore() {
-		return store;
+	private String getTextFromMessage(Message message) throws MessagingException, IOException {
+		String text = "";
+		if (message.isMimeType("text/plain")) {
+			text = message.getContent().toString();
+		} else if (message.isMimeType("multipart/*")) {
+			MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
+			text = getTextFromMimeMultipart(mimeMultipart);
+		}
+		return text;
+	}
+
+
+	/**
+	 * This method is used to get the Text from an email in a String format. This method is invoked
+	 * by the method getTextFromMessage.
+	 * 
+	 * @param MimeMultipart - message to be translated from MimeMultipart to String 
+	 * 
+	 * @return email content in a String format
+	 */
+	
+	private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws MessagingException, IOException {
+		String text = "";
+		int count = mimeMultipart.getCount();
+		for (int i = 0; i < count; i++) {
+			BodyPart bodyPart = mimeMultipart.getBodyPart(i);
+			if (bodyPart.isMimeType("text/plain")) {
+				text = text + "\n" + bodyPart.getContent();
+				break; //necessário para não aparecer texto repetido
+
+			} else if (bodyPart.getContent() instanceof MimeMultipart) {
+				text = text + getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
+			}
+		}
+		return text;
 	}
 	
 	/**
+	 * This method is used to get the precise date at midnight
+	 * this method is used to check which email's were received in the day the application is being used.
 	 * 
-	 * 	Método main,que cria uma instancia da classe email, e faz utilização das suas
-	 * classes send e searchEmail
+	 * @return the date at midnight that this method is run
+	 * 
+	 */
+	private Date getDate() {
+		Date today = new Date();
+		@SuppressWarnings("deprecation")
+		Date today2 = new Date(today.getYear(),today.getMonth(), today.getDate(),0,0,0);
+		return today2;
+	}
+
+	/**
+	 * 
+	 *	 The main method is only created to run some testing before the class is united with
+	 * the application GUI
 	 * 
 	 * @param args
 	 */
 
 	public static void main(String[] args) {
 
-		String username = "testees@outlook.pt";
+		String username = "testees@.pt";
 		String password = "TESTEteste123";
+		new email(username, password);
 		// Scanner in = new Scanner(System.in);
 		//
 		// System.out.println("Email: ");
@@ -409,15 +544,15 @@ public class email {
 		// System.out.println("Pass: ");
 		// String password = in.nextLine();
 
-		email email = new email();
+//		new email(username, password);
 
-		email.connect(username, password);
+		// email.connect(username, password);
 
 		// email.addCredentials(username, password);
 		// email.isRegistred(username, password);
 		// email.searchEmail(username, password);
 		// email.deleteCredentials(username, password);
-		System.out.println(email.isRegistered(username, password));
+
 	}
 
 }
