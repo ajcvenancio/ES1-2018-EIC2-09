@@ -107,11 +107,11 @@ public class FacebookUser {
 	}
 
 	public static void main(String[] args) {
-		FacebookUser fbuser = new FacebookUser("EAAHQqdCwezIBAJeUhTyQg5TORTFQspQsah8nxkSrmE4XBrTE2NYLpGasVodRYZCdB7VAd77hZANHmbhGPVhQRamw0PswYoExdAi17kUUWZCZA817WZBzJyUVyZApNPv3utZBhUhIm591YN2UyUl3uilrqfqijzJZC9IVP3NjCxRz7w0jWioJZCxCpS9ICuZBUxJuBdMjZAy3RhyCAZDZD");
+		FacebookUser fbuser = new FacebookUser("EAAHQqdCwezIBAG50YlgZCnhrCxqqBe7J3jkIAfsdsybUltqcPUxFaBZB7KruIsZCQXorxRTLm0eZBZB4f59HntlmDc24PJY31ORchQZBdrpDyQ4gIr0sZAuCpdJANNgg5VHUTN7I0cBXHj8olYJcksLZBeoUZAxIW8UACntwNCeRGUmpVl6TFimSDTNFA7usaZBegZD");
 		System.out.println(fbuser.getUserLatestPosts(1));
 		System.out.println(fbuser.getUserLatest24hPosts());
 //		System.out.println(fbuser.getUserName());
-//		System.out.println(fbuser.postOnGroup("By eclipse"));
+		System.out.println(fbuser.postOnGroup("Test"));
 	}
 
 }

@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +29,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.restfb.types.Notification;
+
+import channels.FacebookUser;
 import config.SiteLogin;
 
 /**
@@ -425,5 +429,12 @@ public class MainWindows extends JFrame {
 
 	public static void main(String[] args) {
 		MainWindows m = new MainWindows();
+		
+		FacebookUser fbUser = new FacebookUser("EAAHQqdCwezIBAG50YlgZCnhrCxqqBe7J3jkIAfsdsybUltqcPUxFaBZB7KruIsZCQXorxRTLm0eZBZB4f59HntlmDc24PJY31ORchQZBdrpDyQ4gIr0sZAuCpdJANNgg5VHUTN7I0cBXHj8olYJcksLZBeoUZAxIW8UACntwNCeRGUmpVl6TFimSDTNFA7usaZBegZD");
+		ArrayList<channels.Notification> list = fbUser.getUserLatest24hPosts();
+		for(int i = 0; i != list.size(); i++) {
+			channels.Notification n = list.get(i);
+			m.addNotification(n.getDate(), "Facebook", "", "", n.getText());
+		}
 	}
 }
