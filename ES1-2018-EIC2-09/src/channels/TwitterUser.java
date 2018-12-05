@@ -27,18 +27,6 @@ public final class TwitterUser  {
         	  .setOAuthAccessTokenSecret("orJTrGTBhYOrIqBydJwvIAaY7fjR0x5FaSHYB8DbXn8EI");
         	tf = new TwitterFactory(cb.build());
         	twitter = tf.getInstance();        		
-           /* statuses = twitter.getHomeTimeline();
-              System.out.println("------------------------\n Showing home timeline \n------------------------");
-    		int counter=0;
-    		int counterTotal = 0;
-            for (Status status : statuses) {
-				if (status.getUser().getName() != null && status.getUser().getName().contains("ISCTE")) {
-					System.out.println(status.getUser().getName() + ":" + status.getText()+ "      DATA:"+status.getCreatedAt().toString());
-					counter++;
-				}
-				counterTotal++;
-            }
-    		System.out.println("-------------\nN� of Results: " + counter+"/"+counterTotal);*/
         } catch (Exception e) { System.out.println(e.getMessage()); }
      }
 	
@@ -59,33 +47,12 @@ public final class TwitterUser  {
 		return notifications;
 	}
 	
-	/*private static String changeDateFormat(){
-		SimpleDateFormat s = new SimpleDateFormat("dd/MMM/yyyy");
-		String dateInString = "Mon OCT 07 19:18:26 CEST 2014";
-		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			Date date = s.parse(
-					dateInString.split(" ")[2] + "/" + dateInString.split(" ")[1] + "/" + dateInString.split(" ")[5]);
-			
-			System.out.println(new SimpleDateFormat("YYYY-MM-dd").format(date));
-			return new SimpleDateFormat("YYYY-MM-dd").format(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "Data Nula";
-	}*/
 	
 	private String changeDateFormat(String dateInString){
 		SimpleDateFormat s = new SimpleDateFormat("dd/MMM/yyyy");
-		//String dateInString = "Mon OCT 07 19:18:26 CEST 2014";
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String date = dateInString.split(" ")[2] + "-" + dateInString.split(" ")[1] + "-" + dateInString.split(" ")[5] +"  Time: "+ dateInString.split(" ")[3] ;
 		return date;
-		/*
-		 * System.out.println(new SimpleDateFormat("YYYY-MM-dd").format(f));
-		 * return new SimpleDateFormat("YYYY-MM-dd").format(date);
-		 */
 	}
 	
 
