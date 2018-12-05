@@ -12,7 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,11 +30,15 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import com.restfb.types.Notification;
+
+//import com.restfb.types.Notification;
 
 import channels.FacebookUser;
+import channels.Notification;
 import config.SiteLogin;
 
 /**
@@ -55,8 +62,13 @@ public class MainWindows extends JFrame {
 	private JComboBox<String> cbFilter;
 	private JTextField txtProcurar;
 	private JScrollPane itemContentScrollPane;
+	private JTextArea itemContent;
+	private MainClass mc;
+	private List<String> contentList;
 
 	public MainWindows() {
+		contentList=new ArrayList<String>();
+		mc=new MainClass();
 		setResizable(false);
 		init("Bom Dia Academia", 1000, 800);
 		makeSidebar();
@@ -71,6 +83,7 @@ public class MainWindows extends JFrame {
 		refreshListener();
 		logOffListener();
 		sairListener();
+		clickListener();
 	}
 
 	/**
@@ -85,6 +98,7 @@ public class MainWindows extends JFrame {
 		setTitle(title);
 		setSize(width, height);
 	}
+	
 
 	/**
 	 * This method center the frame, set The default close operation of the frame as
@@ -205,7 +219,7 @@ public class MainWindows extends JFrame {
 		timelineTable.setBackground(new Color(240, 240, 240));
 		timelineTableScrollPane.setViewportView(timelineTable);
 
-		JTextArea itemContent = new JTextArea();
+		itemContent = new JTextArea();
 		itemContent.setBounds(46, 319, 779, 378);
 //		itemContent.setBorder(new LineBorder(SystemColor.controlDkShadow));
 		itemContent.setFont(new Font("Segoe UI", Font.BOLD, 19));
@@ -232,7 +246,7 @@ public class MainWindows extends JFrame {
 		panelCenter.add(txtProcurar);
 		txtProcurar.setColumns(10);
 
-		addNotification("data", "E-mail", "origem", "assunto", null);
+	//	addNotification("data", "E-mail", "origem", "assunto", null);
 	}
 
 	/**
@@ -245,6 +259,21 @@ public class MainWindows extends JFrame {
 		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
 		model.addRow(new Object[] { data, canal, origem, assunto });
 		panelCenter.repaint();
+	}
+	
+	/**
+	 * Adds a Notification List to the timeline JTable. Each row is a notification.
+	 * 
+	 * @author amsgn-iscteiul
+	 * @since 2018
+	 */
+	public void addNotificationList(List<Notification> ns){
+		for(Notification n:ns){
+			DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
+			model.addRow(new Object[] { n.getDate().toString(), n.getChannel(), n.getSource(), n.getSubject() });
+			panelCenter.repaint();
+			contentList.add(n.getText());
+		}
 	}
 
 	/**
@@ -292,7 +321,7 @@ public class MainWindows extends JFrame {
 
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Não está nada selecionado", "ERRO!",
+					JOptionPane.showMessageDialog(null, "Nï¿½o estï¿½ nada selecionado", "ERRO!",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
@@ -332,7 +361,8 @@ public class MainWindows extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// ACTUALIZAR AS NOTIFICAÇÕES
+				contentList.clear();
+				addNotificationList(mc.refreshAll());
 			}
 		});
 	}
@@ -418,6 +448,49 @@ public class MainWindows extends JFrame {
 	 */
 	public JTable getTimelineTable() {
 		return timelineTable;
+	}	
+	
+	/**
+	 * Listener that allows the user to read the content after selecting an item.
+	 * 
+	 * @author amsgn-iscteiul
+	 * @since 2018
+	 */
+	public void clickListener(){
+		timelineTable.addMouseListener(new MouseListener(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(timelineTable.getSelectedRow());
+				itemContent.setText(contentList.get(timelineTable.getSelectedRow()));
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println(timelineTable.getSelectedRow());
+				itemContent.setText(contentList.get(timelineTable.getSelectedRow()));
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+	
 	}
 
 	public void addFilterItems() {
@@ -429,12 +502,13 @@ public class MainWindows extends JFrame {
 
 	public static void main(String[] args) {
 		MainWindows m = new MainWindows();
-		
+		m.btnRefresh.doClick();
+		/*
 		FacebookUser fbUser = new FacebookUser("EAAHQqdCwezIBAG50YlgZCnhrCxqqBe7J3jkIAfsdsybUltqcPUxFaBZB7KruIsZCQXorxRTLm0eZBZB4f59HntlmDc24PJY31ORchQZBdrpDyQ4gIr0sZAuCpdJANNgg5VHUTN7I0cBXHj8olYJcksLZBeoUZAxIW8UACntwNCeRGUmpVl6TFimSDTNFA7usaZBegZD");
 		ArrayList<channels.Notification> list = fbUser.getUserLatest24hPosts();
 		for(int i = 0; i != list.size(); i++) {
 			channels.Notification n = list.get(i);
 			m.addNotification(n.getDate(), "Facebook", "", "", n.getText());
-		}
+		}*/
 	}
 }
