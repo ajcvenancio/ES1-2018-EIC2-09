@@ -60,7 +60,7 @@ public class FacebookUser {
 			Post aPost = postsList.get(i);
 			if (aPost != null) {
 //				System.out.println("  >>  "+aPost);
-				finalList.add(new Notification("Facebook", aPost.getCreatedTime(), aPost.getName(), "", aPost.getMessage(), aPost.getPermalinkUrl()));
+				finalList.add(new Notification("Facebook", aPost.getCreatedTime(), aPost.getName(), "", aPost.getMessage()));
 			}
 		}
 		return finalList;
@@ -73,20 +73,14 @@ public class FacebookUser {
 	 * @author dgsos-iscteiul
 	 * @since 2018
 	 */
-	public ArrayList<Notification> getUserLatest24hPosts() {
-		ArrayList<Notification> finalList = new ArrayList<>();
-		Connection<Post> postFeed = fbClient.fetchConnection("301124660499343/feed",Post.class, Parameter.with("since", (System.currentTimeMillis() / 1000L)-86400), Parameter.with("fields","message,created_time,id,permalink_url"));
+	public ArrayList<Notification> getUserLatestDaysPosts(int days) {
+		ArrayList<Notification> finalList = new ArrayList<Notification>();
+		Connection<Post> postFeed = fbClient.fetchConnection("301124660499343/feed",Post.class, Parameter.with("since", (System.currentTimeMillis() / 1000L)-(86400*days)), Parameter.with("fields","message,created_time,id,permalink_url"));
 		List<Post> potsList = postFeed.getData();
-		long DAY = 24 * 60 * 60 * 1000;
 		for(int i = 0; i != potsList.size(); i++) {
 			Post aPost = potsList.get(i);
 			if (aPost != null) {
-				if(aPost.getCreatedTime().getTime() > System.currentTimeMillis() - DAY) {
-					finalList.add(new Notification("Facebook", aPost.getCreatedTime(), aPost.getName(), "", aPost.getMessage(), aPost.getPermalinkUrl()));
-				}
-				else {
-					break;
-				}
+				finalList.add(new Notification("Facebook", aPost.getCreatedTime(), "", "", aPost.getMessage()));
 			}
 		}
 		return finalList;
@@ -107,11 +101,17 @@ public class FacebookUser {
 	}
 
 	public static void main(String[] args) {
-		FacebookUser fbuser = new FacebookUser("EAAHQqdCwezIBAG50YlgZCnhrCxqqBe7J3jkIAfsdsybUltqcPUxFaBZB7KruIsZCQXorxRTLm0eZBZB4f59HntlmDc24PJY31ORchQZBdrpDyQ4gIr0sZAuCpdJANNgg5VHUTN7I0cBXHj8olYJcksLZBeoUZAxIW8UACntwNCeRGUmpVl6TFimSDTNFA7usaZBegZD");
-		System.out.println(fbuser.getUserLatestPosts(1));
-		System.out.println(fbuser.getUserLatest24hPosts());
+		FacebookUser fbuser = new FacebookUser("EAAHQqdCwezIBAOyWAiZCgaUoMab1MSW0BCHfU2fSvhqAq6ocVCIwHzp2jK9nVOGzG2fpeoADOc7lVFWd8wG18GOrfe69z2OvEdCXSCay6u6JSpCT9VNPFkRDgRnZCkVPCsWyoCkfNQ7oOTTQ4jN5B6osATHrVgmUNTdPZAZCQ4TBUcJ7xO6k85DI6wFjV18ZD");
+//		System.out.println(fbuser.getUserLatestPosts(1));
+//		System.out.println(fbuser.getUserLatest24hPosts());
 //		System.out.println(fbuser.getUserName());
-		System.out.println(fbuser.postOnGroup("Test"));
+//		System.out.println(fbuser.postOnGroup("Test"));
+//		ArrayList<Notification> list = fbuser.getUserLatest24hPosts();
+//		if(list == null) {
+//			System.out.println("é nula");
+//		} else {
+//			System.out.println(list.size());
+//		}
 	}
 
 }

@@ -106,7 +106,8 @@ public class LoginWindows extends JFrame {
 					doLogin();
 					if (autenticated) {
 						dispose();
-						MainWindows mainWindows = new MainWindows();
+						// NÃO ESTÁ FEITO
+//						MainWindows mainWindows = new MainWindows();
 					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais inválidas", "ERRO!",
 								JOptionPane.INFORMATION_MESSAGE);

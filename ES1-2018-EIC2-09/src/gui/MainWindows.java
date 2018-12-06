@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -66,9 +67,9 @@ public class MainWindows extends JFrame {
 	private MainClass mc;
 	private List<String> contentList;
 
-	public MainWindows() {
+	public MainWindows(MainClass mc) {
 		contentList=new ArrayList<String>();
-		mc=new MainClass();
+//		this.mc = mc;
 		setResizable(false);
 		init("Bom Dia Academia", 1000, 800);
 		makeSidebar();
@@ -267,9 +268,9 @@ public class MainWindows extends JFrame {
 	 * @author amsgn-iscteiul
 	 * @since 2018
 	 */
-	public void addNotificationList(List<Notification> ns){
+	public void addNotificationList(ArrayList<Notification> ns){
+		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
 		for(Notification n:ns){
-			DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
 			model.addRow(new Object[] { n.getDate().toString(), n.getChannel(), n.getSource(), n.getSubject() });
 			panelCenter.repaint();
 			contentList.add(n.getText());
@@ -499,16 +500,8 @@ public class MainWindows extends JFrame {
 		cbFilter.addItem("Facebook");
 		cbFilter.addItem("Twitter");
 	}
-
-	public static void main(String[] args) {
-		MainWindows m = new MainWindows();
-		m.btnRefresh.doClick();
-		/*
-		FacebookUser fbUser = new FacebookUser("EAAHQqdCwezIBAG50YlgZCnhrCxqqBe7J3jkIAfsdsybUltqcPUxFaBZB7KruIsZCQXorxRTLm0eZBZB4f59HntlmDc24PJY31ORchQZBdrpDyQ4gIr0sZAuCpdJANNgg5VHUTN7I0cBXHj8olYJcksLZBeoUZAxIW8UACntwNCeRGUmpVl6TFimSDTNFA7usaZBegZD");
-		ArrayList<channels.Notification> list = fbUser.getUserLatest24hPosts();
-		for(int i = 0; i != list.size(); i++) {
-			channels.Notification n = list.get(i);
-			m.addNotification(n.getDate(), "Facebook", "", "", n.getText());
-		}*/
+	
+	public JButton getBtnRefresh() {
+		return btnRefresh;
 	}
 }

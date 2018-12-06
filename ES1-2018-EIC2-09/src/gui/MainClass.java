@@ -2,29 +2,39 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import channels.FacebookUser;
 import channels.Notification;
-
+import channels.NotificationComparator;
 import channels.TwitterUser;
 
 public class MainClass {
-	public TwitterUser t;
-	public FacebookUser fb;
-	public List<Notification> ns;
+	private MainWindows mainWindows;
+	private TwitterUser t;
+	private FacebookUser fb;
+	private ArrayList<Notification> ns;
 	
 	public MainClass(){
+		mainWindows = new MainWindows(this);
 		ns=new ArrayList<Notification>();
 		t=new TwitterUser();;
-		//FacebookUser fb=new FacebookUser("EAAHQqdCwezIBAG50YlgZCnhrCxqqBe7J3jkIAfsdsybUltqcPUxFaBZB7KruIsZCQXorxRTLm0eZBZB4f59HntlmDc24PJY31ORchQZBdrpDyQ4gIr0sZAuCpdJANNgg5VHUTN7I0cBXHj8olYJcksLZBeoUZAxIW8UACntwNCeRGUmpVl6TFimSDTNFA7usaZBegZD");
+		fb=new FacebookUser("EAAHQqdCwezIBAESeUi86ruT1qjga1Htn9lqpCyBTorusTmU1RiH36IHC7cOxZAlYxmj4c1cTx0YdwDy8izJZCYJJLQAH5IcQ7PDMZCnEbizjYy2zwS73cfeyTbfQtvJXuh5tOv3kZCTay2HZAUCryvIKk5CYxolUxnC59pOhZCoq4N6JHCTBnpAvFxSblXURwZD");
+		mainWindows.addNotificationList(refreshAll());
+	}
+	
+	public ArrayList<Notification> refreshAll(){
+		ns.clear();
+		ns.addAll(t.getStatuses("ISCTE"));
+		ns.addAll(fb.getUserLatestDaysPosts(5));
+		ns.sort(new NotificationComparator());
+		return ns;
 		
 	}
 	
-	public List<Notification> refreshAll(){
-		ns.clear();
-		ns.addAll(t.getStatuses("ISCTE"));
-		//ns.addAll(fb.getUserLatest24hPosts());
-		return ns;
-		
+
+	public static void main(String[] args) {
+		new MainClass();
+
 	}
 }
