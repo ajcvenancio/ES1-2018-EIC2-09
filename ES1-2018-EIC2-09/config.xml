@@ -1,4 +1,17 @@
-<credentials>
-  <email>abcd@hotmail.com</email>
-  <password>abcdefgh</password>
-</credentials>
+<?xml version="1.0" encoding="UTF-8"?><OfflineSave>	
+	<Credentials>
+		<credential Password="TESTEteste123" Username="testees@outlook.pt"/>
+	</Credentials>
+	<Posts>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject0" text="blablablasdfg"/>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject1" text="blablablasdfg"/>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject2" text="blablablasdfg"/>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject3" text="blablablasdfg"/>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject4" text="blablablasdfg"/>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject5" text="blablablasdfg"/>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject6" text="blablablasdfg"/>
+<notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject7" text="blablablasdfg"/>
+</Posts>
+	<Filter>
+	</Filter>
+</OfflineSave>

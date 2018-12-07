@@ -16,6 +16,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import channels.email;
+
 /**
  * This java file contains class that constructs the Login Windows of the APP.
  * JFrame is extended.
@@ -31,6 +33,7 @@ public class LoginWindows extends JFrame {
 	private JPasswordField passwordField;
 	private JButton btnLogin;
 	private boolean autenticated = false;
+	private email mail;
 
 	/**
 	 * This constructor makes the Login Windows. All the components are added in
@@ -79,7 +82,15 @@ public class LoginWindows extends JFrame {
 		btnLogin.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		btnLogin.setBounds(145, 343, 134, 58);
 		getContentPane().add(btnLogin);
-
+		
+		
+		/////PARA APAGAR DEPOIS/////////////
+		passwordField.setText("TESTEteste123");
+		emailField.setText("testees@outlook.pt");
+		///////////////////////////////////////
+		
+		
+		
 		loginListener();
 		init("Login - Bom dia Academia", 430, 550);
 
@@ -106,8 +117,8 @@ public class LoginWindows extends JFrame {
 					doLogin();
 					if (autenticated) {
 						dispose();
-						// NÃO ESTÁ FEITO
-//						MainWindows mainWindows = new MainWindows();
+						MainClass mc = new MainClass();
+						mc.setEmail(mail);
 					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais inválidas", "ERRO!",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -121,12 +132,17 @@ public class LoginWindows extends JFrame {
 	}
 
 	public void doLogin() {
-		/*
-		 * FAZES AS CENAS DO EMAIL AQUI E NO FIM O AUTENTICATED = TRUE
-		 *
-		 * //
-		 */
-		autenticated = true;
+		email email = new email(emailField.getText(), String.valueOf(passwordField.getPassword()));
+		if(email.getStore().isConnected()) {
+			autenticated=true;
+		}else {
+			if(email.isRegistered()) {
+				autenticated=true;
+				JOptionPane.showMessageDialog(getContentPane(),
+					    "You are Offline",
+					    "Connection Failed", JOptionPane.WARNING_MESSAGE);
+			}
+		}
 	}
 
 	public void autenticate() {

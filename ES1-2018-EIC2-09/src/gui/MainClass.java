@@ -8,11 +8,13 @@ import channels.FacebookUser;
 import channels.Notification;
 import channels.NotificationComparator;
 import channels.TwitterUser;
+import channels.email; 
 
 public class MainClass {
 	private MainWindows mainWindows;
 	private TwitterUser t;
 	private FacebookUser fb;
+	private email mail;
 	private char filter; // filter : n - no filter / f - facebook / e - email / t - twitter
 	private ArrayList<Notification> ns;
 	
@@ -23,6 +25,10 @@ public class MainClass {
 		t=new TwitterUser();;
 		fb=new FacebookUser();
 		mainWindows.addNotificationList(refreshAll());
+	}
+	
+	public void setEmail(email mail) {
+		this.mail=mail;
 	}
 	
 	public TwitterUser getTwitterUser(){
