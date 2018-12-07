@@ -8,7 +8,8 @@ import channels.FacebookUser;
 import channels.Notification;
 import channels.NotificationComparator;
 import channels.TwitterUser;
-import channels.email; 
+import channels.email;
+import config.xmlConfig; 
 
 public class MainClass {
 	private MainWindows mainWindows;
@@ -17,18 +18,36 @@ public class MainClass {
 	private email mail;
 	private char filter; // filter : n - no filter / f - facebook / e - email / t - twitter
 	private ArrayList<Notification> ns;
+	private boolean offline;
 	
 	public MainClass(){
 		this.filter='n';
-		mainWindows = new MainWindows(this);
+//		mainWindows = new MainWindows(this);
 		ns=new ArrayList<Notification>();
-		t=new TwitterUser();;
-		fb=new FacebookUser();
+//		t=new TwitterUser();
+//		fb=new FacebookUser();
+		
 	}
 	
 	
-	public void startMainWindow() {
-		mainWindows.addNotificationList(refreshAll());
+	public void initializeSocialNetwork() {
+		this.t=new TwitterUser();
+		this.fb=new FacebookUser();
+	}
+	
+	public void setOffline(boolean state) {
+		this.offline=state;
+	}
+	public void startMainWindow(MainClass mc) {
+		System.out.println(getOffline());
+		this.mainWindows = new MainWindows(mc);
+		
+		if(offline)
+			mainWindows.addNotificationList(xmlConfig.getPosts());
+		else {
+			initializeSocialNetwork();
+			mainWindows.addNotificationList(refreshAll());
+		}
 	}
 	public void setEmail(email mail) {
 		this.mail=mail;
@@ -53,6 +72,8 @@ public class MainClass {
 		if(filter == 'n' || filter == 'e')
 			ns.addAll(mail.searchEmail());
 		ns.sort(new NotificationComparator());
+		xmlConfig.removeAllPosts();
+		xmlConfig.addPost(ns);
 		return ns;
 	}
 	
@@ -78,5 +99,9 @@ public class MainClass {
 	
 	public static void main(String[] args) {
 		new MainClass();
+	}
+
+	public boolean getOffline() {
+		return offline;
 	}
 }

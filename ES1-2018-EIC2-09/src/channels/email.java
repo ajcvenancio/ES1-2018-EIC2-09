@@ -58,7 +58,6 @@ public class email {
 	private String username;
 	private String password;
 	public MainWindows mainWindow;
-//	public ArrayList<Notification> receivedEmail;
 
 
 	public email(String username, String password) {
@@ -69,7 +68,6 @@ public class email {
 		connect();
 //		searchEmail();
 //		send("testees1111@outlook.pt", "username","subject","sdfjg");
-		System.out.println(getDate());
 	}
 
 	
@@ -83,7 +81,7 @@ public class email {
 	 * @exception MessagingException
 	 */
 
-	protected void connect(/* String username, String password */) {
+	public void connect() {
 		Properties properties = new Properties();
 
 		properties.put("mail.imap.host", "imap-mail.outlook.com");
@@ -96,16 +94,14 @@ public class email {
 		Session session = Session.getDefaultInstance(properties);
 
 		try {
-			/* Connect to the message Store */
 
 			store = session.getStore("imap");
 			store.connect(username, password);
 			System.out.println("Conectou");
 
-			if (!isRegistered(/* username, password */))
-				addCredentials(/* username, password */);
+			if (!isRegistered())
+				addCredentials();
 		} catch (MessagingException e) {
-//			e.printStackTrace();
 			System.out.println("not connected");
 		}
 
@@ -127,7 +123,7 @@ public class email {
 	 * 
 	 */
 
-	public ArrayList<Notification> searchEmail(/* String username, String password */) {
+	public ArrayList<Notification> searchEmail() {
 		ArrayList<Notification> receivedEmail = new ArrayList<>();
 				
 		try {
@@ -141,42 +137,18 @@ public class email {
 				System.out.println("Your Inbox is empty!");
 			} 
 			else {
-				System.out.println("zete");
 				
 				receivedEmail = addEmailList(foundMessages, receivedEmail);
-				System.out.println(receivedEmail.size());
-//				showInbox(foundMessages);
 			}
 
 			folderInbox.close(false);
-			// store.close();
 
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		System.out.println(receivedEmail);
 		return receivedEmail;
 	}
-//	private void showInbox(Message[] foundMessages) {
-//		for (int i = foundMessages.length - 1; i >= 0; i--) {
-//			Message message = foundMessages[i];
-//			try {
-//				System.out.println("From: " + message.getFrom()[0]);
-//				System.out.println("Subject: " + message.getSubject());
-//
-//				System.out.println("Date: " + message.getSentDate());
-//
-//				System.out.println("");
-//				System.out.println("------------: " + i + ":---------------");
-//			} catch (MessagingException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//
-//		}
-//
-//	}
-//	
+
 	/**
 	 * 
 	 * 
@@ -191,84 +163,27 @@ public class email {
 	private ArrayList<Notification> addEmailList(Message[] foundMessages, ArrayList<Notification> receivedEmail) {
 		try {
 			for (int i = foundMessages.length - 1; i >= 0; i--) {
-				if (foundMessages[i].getReceivedDate().after(getDate())) {
-					System.out.println("emtra?");
+//				if (foundMessages[i].getReceivedDate().after(getDate())) {
+				if(foundMessages[i].getReceivedDate().getTime() > System.currentTimeMillis() - 86400000) {
 					Date date = foundMessages[i].getReceivedDate();
-					String source = foundMessages[i].getFrom()[0].toString().split("<")[1].split(">")[0];/*getSource(foundMessages[i])/* foundMessages[i].getFrom()[0] */
+					String source = foundMessages[i].getFrom()[0].toString().split("<")[1].split(">")[0];
 					String subject = foundMessages[i].getSubject();
 					String text = getTextFromMessage(foundMessages[i]);
 					Notification notification = new Notification("E-mail", date, source, subject, text);
-					System.out.println(notification.getSubject());
 					receivedEmail.add(notification);
-//					mainWindow.addNotification(/* date, "email", source, subject */notification);
 				
 				}else {
 					break;					
 				}
-				System.out.println(i);
 			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("chega");
 		return receivedEmail;
 	}
-	/**
-	 * 
-	 * 
-	 * This method is used to convert an array with all the senders froma received email
-	 * into a String to show in the application
-	 * 
-	 * @param Message message email receiver
-	 * 
-	 * @return String with the source of an email received
-	 * 
-	 */
-	
-	private String getSource(Message message) {
-		String source = "";
-		try {
-			for (int i = 0; i < message.getFrom().length; i++) {
-				source += message.getFrom()[i];
-			}
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return source;
-	}
 
-//	/**
-//	 * 
-//	 * O método showInbox() imprime na consola o emissor do email, o Assunto e a
-//	 * data de envio
-//	 *
-//	 * @param foundMessages
-//	 *            Array com todas as Mensagens da pasta Inbox do utilizador
-//	 * @exception MessagingException
-//	 *
-//	 */
-//	private void showInbox(Message[] foundMessages) {
-//		for (int i = foundMessages.length - 1; i >= 0; i--) {
-//			Message message = foundMessages[i];
-//			try {
-//				System.out.println("From: " + message.getFrom()[0]);
-//				System.out.println("Subject: " + message.getSubject());
-//
-//				System.out.println("Date: " + message.getSentDate());
-//
-//				System.out.println("");
-//				System.out.println("------------: " + i + ":---------------");
-//
-//			} catch (MessagingException e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
-//
-//	}
 
 	/**
 	 * 
@@ -291,7 +206,7 @@ public class email {
 	 * 
 	 */
 
-	public void send(String receiverEmail, String username, /* String password, */ String subject, String msg) {
+	public void send(String receiverEmail, String subject, String msg) {
 
 		// ************************************
 		// ********** Properties **************
@@ -350,8 +265,8 @@ public class email {
 	 * 
 	 */
 
-	protected void addCredentials(/* String username, String password */) {
-		if (!isRegistered(/* username, password */)) {
+	protected void addCredentials() {
+		if (!isRegistered()) {
 			try {
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				Document xmlDoc = builder.parse(file);
@@ -400,7 +315,7 @@ public class email {
 	 * @exception IOException
 	 * 
 	 */
-	public boolean isRegistered(/* String username, String password */) {
+	public boolean isRegistered() {
 
 		try {
 
@@ -447,8 +362,8 @@ public class email {
 	 * @exception TransformerException
 	 * 
 	 */
-	protected void deleteCredentials(/* String username, String password */) {
-		if (isRegistered(/* username, password */)) {
+	protected void deleteCredentials() {
+		if (isRegistered()) {
 			try {
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				Document xmlDoc = builder.parse(file);
@@ -576,10 +491,10 @@ public class email {
 	 * @param MainWindows - this class main application window
 	 * 
 	 */
-	public void setMainWindow(MainWindows mainWindow) {
-		this.mainWindow = mainWindow;
-	}
-	
+//	public void setMainWindow(MainWindows mainWindow) {
+//		this.mainWindow = mainWindow;
+//	}
+//	
 	/**
 	 * This method is used to get the precise date at midnight
 	 * this method is used to check which email's were received in the day the application is being used.
@@ -587,28 +502,29 @@ public class email {
 	 * @return the date at midnight that this method is run
 	 * 
 	 */
-	private Date getDate() {
-		Date today = new Date();
-		@SuppressWarnings("deprecation")
-		Date today2 = new Date(today.getYear(),today.getMonth(), today.getDate(),0,0,0);
-		return today2;
-	}
+//	private Date getDate() {
+//		Date today = new Date();
+//		@SuppressWarnings("deprecation")
+//		Date today2 = new Date(today.getYear(),today.getMonth(), today.getDate(),0,0,0);
+//		return today2;
+//	}
 
-	/**
-	 * 
-	 *	 The main method is only created to run some testing before the class is united with
-	 * the application GUI
-	 * 
-	 * @param args
-	 */
-
+//	/**
+//	 * 
+//	 *	 The main method is only created to run some testing before the class is united with
+//	 * the application GUI
+//	 * 
+//	 * @param args
+//	 */
+//
 	public static void main(String[] args) {
 
-		String username = "testees1111@outlook.pt";
+		String username = "testees111@outlook.pt";
 		String password = "mailTESTE123";
 		email e = new email(username, password);
-		List<Notification>n= e.searchEmail();
-		System.out.println(n.get(0));
+//		List<Notification>n= e.searchEmail();
+//		System.out.println(n.get(0));
+		e.send(username, "sdfg", "asdfg");
 		// Scanner in = new Scanner(System.in);
 		//
 		// System.out.println("Email: ");

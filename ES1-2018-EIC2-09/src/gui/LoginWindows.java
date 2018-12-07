@@ -119,7 +119,11 @@ public class LoginWindows extends JFrame {
 						dispose();
 						MainClass mc = new MainClass();
 						mc.setEmail(mail);
-						mc.startMainWindow();
+						if(mail.getStore().isConnected())
+							mc.setOffline(false);
+						else
+							mc.setOffline(true);
+						mc.startMainWindow(mc);
 					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais inválidas", "ERRO!",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -134,10 +138,10 @@ public class LoginWindows extends JFrame {
 
 	public void doLogin() {
 		mail = new email(emailField.getText(), String.valueOf(passwordField.getPassword()));
-		System.out.println("vai ver");
 		if(mail.getStore().isConnected()) {
 			
 			autenticated=true;
+			
 			System.out.println(autenticated);
 		}else {
 			if(mail.isRegistered()) {
@@ -147,10 +151,6 @@ public class LoginWindows extends JFrame {
 					    "Connection Failed", JOptionPane.WARNING_MESSAGE);
 			}
 		}
-	}
-
-	public void autenticate() {
-
 	}
 
 	/**

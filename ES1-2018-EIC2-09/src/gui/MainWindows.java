@@ -310,6 +310,7 @@ public class MainWindows extends JFrame{
 	}
 
 	public void sendEmail() {
+		btnEnviarEmail.setEnabled(!mc.getOffline());
 		btnEnviarEmail.addActionListener(new ActionListener() {
 			
 			@Override
@@ -325,6 +326,7 @@ public class MainWindows extends JFrame{
 	 * @since 2018
 	 */
 	public void responderListener() {
+		btnResponder.setEnabled(!mc.getOffline());
 		btnResponder.addActionListener(new ActionListener() {
 
 			@Override
@@ -357,6 +359,7 @@ public class MainWindows extends JFrame{
 	 * @since 2018
 	 */
 	public void elearningListener() {
+		btnElearning.setEnabled(!mc.getOffline());
 		btnElearning.addActionListener(new ActionListener() {
 
 			@Override
@@ -368,6 +371,7 @@ public class MainWindows extends JFrame{
 	}
 
 	public void fenixListener() {
+		btnFenix.setEnabled(!mc.getOffline());
 		btnFenix.addActionListener(new ActionListener() {
 
 			@Override
@@ -379,8 +383,9 @@ public class MainWindows extends JFrame{
 	}
 
 	public void refreshListener() {
+//		btnRefresh.setEnabled(!mc.getOffline());
 		btnRefresh.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				tableModel.setRowCount(0);
@@ -440,6 +445,7 @@ public class MainWindows extends JFrame{
 	}
 	
 	public void tweetButtonListener(){
+		btnTwitterPost.setEnabled(!mc.getOffline());
 		btnTwitterPost.addActionListener(new ActionListener(){
 
 			@Override
@@ -450,6 +456,7 @@ public class MainWindows extends JFrame{
 		});
 	}
 	public void facebookButtonListener(){
+		btnFacebookPost.setEnabled(!mc.getOffline());
 		btnFacebookPost.addActionListener(new ActionListener(){
 
 			@Override

@@ -47,6 +47,7 @@ public class NewEmailWindows extends JFrame {
 	private JTextArea conteudoDaResposta;
 	private JScrollPane conteudoDaRespostaScrollPane;
 	private JButton btnResponder;
+	private email mail;
 
 	/**
 	 * Constructor of the NewEmailWindows that receives an E-mail adress as a
@@ -58,6 +59,8 @@ public class NewEmailWindows extends JFrame {
 	 */
 
 	public NewEmailWindows(email mail) {
+		this.mail=mail;
+		
 		init("Resposta ao E-mail", 700, 700);
 		getContentPane().setLayout(new BorderLayout(0, 20));
 
@@ -148,6 +151,7 @@ public class NewEmailWindows extends JFrame {
 							"Aviso", JOptionPane.YES_NO_OPTION);
 					if (optionChoosed == JOptionPane.YES_OPTION) {
 						// FAZER O QUE TEM A FAZER E O DISPOSE FECHA A JANELA NO FIM
+						mail.send(txtEndercoDestino.getText(),/* mail.getUsername(),*/ txtAssunto.getText(), conteudoDaResposta.getText());
 						dispose();
 					}
 				}

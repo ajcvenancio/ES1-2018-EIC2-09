@@ -29,23 +29,23 @@ public class xmlConfig {
 	private static File file = new File("config.xml");
 	private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-	public static void addPost(Notification post) {
+	public static void addPost(ArrayList<Notification> notificationList) {
 
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document xmlDoc = builder.parse(file);
 
 			NodeList root = xmlDoc.getElementsByTagName("Posts");
-
-			Element notification = xmlDoc.createElement("notification");
-			notification.setAttribute("channel",post.getChannel());
-			notification.setAttribute("date",post.getDate());
-			notification.setAttribute("source",post.getSource());
-			notification.setAttribute("subject",post.getSubject());
-			notification.setAttribute("text", post.getText());
-			
-			root.item(0).appendChild(notification);
-
+			for(int i =0; i < notificationList.size(); i++) {
+				Element notification = xmlDoc.createElement("notification");
+				notification.setAttribute("channel",notificationList.get(i).getChannel());
+				notification.setAttribute("date",notificationList.get(i).getDate());
+				notification.setAttribute("source",notificationList.get(i).getSource());
+				notification.setAttribute("subject",notificationList.get(i).getSubject());
+				notification.setAttribute("text", notificationList.get(i).getText());
+				
+				root.item(0).appendChild(notification);
+			}
 			DOMSource source = new DOMSource(xmlDoc);
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -81,12 +81,12 @@ public class xmlConfig {
 			
 			for (int i = 0; i < posts.getLength(); i++) {
 				String channel=posts.item(i).getAttributes().item(0).getNodeValue();
-				Date date= (Date) posts.item(i).getAttributes().item(1);
+				String stringDate= posts.item(i).getAttributes().item(1).getNodeValue();
+				Date date = getDateFromString(stringDate);
 				String source=posts.item(i).getAttributes().item(2).getNodeValue();
 				String subject=posts.item(i).getAttributes().item(3).getNodeValue();
 				String text=posts.item(i).getAttributes().item(4).getNodeValue();
 				Notification notification = new Notification(channel, date, source, subject, text);
-				addPost(notification);
 				array.add(notification);
 			}
 		} catch (ParserConfigurationException e) {
@@ -104,6 +104,17 @@ public class xmlConfig {
 		return array;
 	}
 	
+	private static Date getDateFromString(String stringDate) {
+		int day = Integer.parseInt(stringDate.split(" ")[0].split("-")[0]);
+		int month = Integer.parseInt(stringDate.split(" ")[0].split("-")[1]);
+		int year = Integer.parseInt(stringDate.split(" ")[0].split("-")[2]);
+		
+		int hour = Integer.parseInt(stringDate.split(" ")[1].split(":")[0]);
+		int minutes =Integer.parseInt( stringDate.split(" ")[1].split(":")[1]);
+		int seconds = Integer.parseInt(stringDate.split(" ")[1].split(":")[2]);
+	return new Date(day,month,year,hour,minutes,seconds);
+	}
+
 	public static void removeAllPosts() {
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -158,6 +169,6 @@ public class xmlConfig {
 			x.addPost(notification);
 		}*/
 //		System.out.println(getPosts());
-		removeAllPosts();
+//		removeAllPosts();
 	}
 }
