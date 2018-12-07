@@ -31,7 +31,6 @@ public final class TwitterUser  {
 				if (s.getUser().getName() != null && s.getUser().getName().contains(user)) {
 					if(s.getCreatedAt().getTime()>System.currentTimeMillis()-86400000){
 						Notification n = new Notification("twitter",(Date) s.getCreatedAt(),s.getUser().getName()," - ",s.getText());
-						System.out.println(s.getURLEntities());
 						notifications.add(n);
 					}
 				}

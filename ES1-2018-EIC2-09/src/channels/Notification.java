@@ -36,7 +36,4 @@ public class Notification {
 	public String getText() {
 		return text;
 	}
-	public String toString(){
-		return "\n<"+getDate()+" | "+channel+" | "+source+" | "+subject+" | "+text+">";
-	}
 }

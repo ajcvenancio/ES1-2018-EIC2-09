@@ -34,17 +34,6 @@ public class FacebookUser {
 	}
 
 	/**
-	 * This method return a String with a name of user
-	 * 
-	 * @return the name of FacebookUser
-	 * @author dgsos-iscteiul
-	 * @since 2018
-	 */
-	public String getUserName() {
-		return me.getName();
-	}
-
-	/**
 	 * This receive a number and return a List with the number of posts
 	 * 
 	 * @param number of posts to read
@@ -59,7 +48,6 @@ public class FacebookUser {
 		for(int i = 0; i != postsList.size(); i++) {
 			Post aPost = postsList.get(i);
 			if (aPost != null) {
-//				System.out.println("  >>  "+aPost);
 				finalList.add(new Notification("Facebook", aPost.getCreatedTime(), aPost.getName(), "", aPost.getMessage()));
 			}
 		}
@@ -92,6 +80,8 @@ public class FacebookUser {
 	 * @return url of the new post
 	 * @author dgsos-iscteiul
 	 * @since 2018
+	 * 
+	 * 
 	 */
 	public void postOnGroup(String str) {
 		fbClient.publish("301124660499343/feed", FacebookType.class, Parameter.with("message", str));

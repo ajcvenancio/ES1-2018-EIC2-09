@@ -72,9 +72,11 @@ public class MainClass {
 		this.filter=c;
 	}
 	
-
+	public char getFilter() {
+		return filter;
+	}
+	
 	public static void main(String[] args) {
 		new MainClass();
-
 	}
 }
