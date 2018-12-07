@@ -85,8 +85,8 @@ public class LoginWindows extends JFrame {
 		
 		
 		/////PARA APAGAR DEPOIS/////////////
-		passwordField.setText("TESTEteste123");
-		emailField.setText("testees@outlook.pt");
+		passwordField.setText("mailTESTE123");
+		emailField.setText("testees1111@outlook.pt");
 		///////////////////////////////////////
 		
 		
@@ -119,6 +119,7 @@ public class LoginWindows extends JFrame {
 						dispose();
 						MainClass mc = new MainClass();
 						mc.setEmail(mail);
+						mc.startMainWindow();
 					} else {
 						JOptionPane.showMessageDialog(null, "Credenciais inválidas", "ERRO!",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -132,11 +133,14 @@ public class LoginWindows extends JFrame {
 	}
 
 	public void doLogin() {
-		email email = new email(emailField.getText(), String.valueOf(passwordField.getPassword()));
-		if(email.getStore().isConnected()) {
+		mail = new email(emailField.getText(), String.valueOf(passwordField.getPassword()));
+		System.out.println("vai ver");
+		if(mail.getStore().isConnected()) {
+			
 			autenticated=true;
+			System.out.println(autenticated);
 		}else {
-			if(email.isRegistered()) {
+			if(mail.isRegistered()) {
 				autenticated=true;
 				JOptionPane.showMessageDialog(getContentPane(),
 					    "You are Offline",

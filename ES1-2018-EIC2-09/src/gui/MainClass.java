@@ -24,9 +24,12 @@ public class MainClass {
 		ns=new ArrayList<Notification>();
 		t=new TwitterUser();;
 		fb=new FacebookUser();
-		mainWindows.addNotificationList(refreshAll());
 	}
 	
+	
+	public void startMainWindow() {
+		mainWindows.addNotificationList(refreshAll());
+	}
 	public void setEmail(email mail) {
 		this.mail=mail;
 	}

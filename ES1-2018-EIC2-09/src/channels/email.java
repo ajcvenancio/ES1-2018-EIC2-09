@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
+import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -56,7 +58,7 @@ public class email {
 	private String username;
 	private String password;
 	public MainWindows mainWindow;
-	private ArrayList<Notification> receivedEmail;
+//	public ArrayList<Notification> receivedEmail;
 
 
 	public email(String username, String password) {
@@ -66,7 +68,7 @@ public class email {
 		 
 		connect();
 //		searchEmail();
-		send("testees1111@outlook.pt", "username","subject","sdfjg");
+//		send("testees1111@outlook.pt", "username","subject","sdfjg");
 		System.out.println(getDate());
 	}
 
@@ -126,7 +128,7 @@ public class email {
 	 */
 
 	public ArrayList<Notification> searchEmail(/* String username, String password */) {
-		receivedEmail = new ArrayList<>();
+		ArrayList<Notification> receivedEmail = new ArrayList<>();
 				
 		try {
 
@@ -140,7 +142,9 @@ public class email {
 			} 
 			else {
 				System.out.println("zete");
-				 receivedEmail = addEmailList(foundMessages);
+				
+				receivedEmail = addEmailList(foundMessages, receivedEmail);
+				System.out.println(receivedEmail.size());
 //				showInbox(foundMessages);
 			}
 
@@ -150,6 +154,7 @@ public class email {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		System.out.println(receivedEmail);
 		return receivedEmail;
 	}
 //	private void showInbox(Message[] foundMessages) {
@@ -183,13 +188,13 @@ public class email {
 	 * @return String with the source of an email received
 	 * 
 	 */
-	private ArrayList<Notification> addEmailList(Message[] foundMessages) {
+	private ArrayList<Notification> addEmailList(Message[] foundMessages, ArrayList<Notification> receivedEmail) {
 		try {
 			for (int i = foundMessages.length - 1; i >= 0; i--) {
 				if (foundMessages[i].getReceivedDate().after(getDate())) {
 					System.out.println("emtra?");
 					Date date = foundMessages[i].getReceivedDate();
-					String source = getSource(foundMessages[i])/* foundMessages[i].getFrom()[0] */;
+					String source = foundMessages[i].getFrom()[0].toString().split("<")[1].split(">")[0];/*getSource(foundMessages[i])/* foundMessages[i].getFrom()[0] */
 					String subject = foundMessages[i].getSubject();
 					String text = getTextFromMessage(foundMessages[i]);
 					Notification notification = new Notification("E-mail", date, source, subject, text);
@@ -601,7 +606,9 @@ public class email {
 
 		String username = "testees1111@outlook.pt";
 		String password = "mailTESTE123";
-		new email(username, password);
+		email e = new email(username, password);
+		List<Notification>n= e.searchEmail();
+		System.out.println(n.get(0));
 		// Scanner in = new Scanner(System.in);
 		//
 		// System.out.println("Email: ");

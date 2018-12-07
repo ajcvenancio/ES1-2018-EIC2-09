@@ -15,6 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
+import channels.email;
+
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -55,7 +57,7 @@ public class NewEmailWindows extends JFrame {
 	 * @param String origem
 	 */
 
-	public NewEmailWindows(String origem) {
+	public NewEmailWindows(email mail) {
 		init("Resposta ao E-mail", 700, 700);
 		getContentPane().setLayout(new BorderLayout(0, 20));
 
@@ -67,7 +69,7 @@ public class NewEmailWindows extends JFrame {
 		lblEndereoDestino.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		panelUp.add(lblEndereoDestino);
 
-		txtEndercoDestino = new JTextField(origem);
+		txtEndercoDestino = new JTextField();
 		txtEndercoDestino.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		panelUp.add(txtEndercoDestino);
 		txtEndercoDestino.setColumns(10);
@@ -172,5 +174,9 @@ public class NewEmailWindows extends JFrame {
 		setSize(width, height);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+	}
+	
+	protected void setDestino(String destino) {
+		txtEndercoDestino.setText(destino);
 	}
 }

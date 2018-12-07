@@ -81,7 +81,6 @@ public class MainWindows extends JFrame{
 		init("Bom Dia Academia", 1000, 800);
 		makeSidebar();
 		makeCenterPanel();
-		responderListener();
 		elearningListener();
 		fenixListener();
 		finalSettings();
@@ -94,6 +93,8 @@ public class MainWindows extends JFrame{
 		clickTimelineListener();
 		tweetButtonListener();
 		facebookButtonListener();
+		sendEmail();
+		responderListener();
 	}
 
 	/**
@@ -308,6 +309,15 @@ public class MainWindows extends JFrame{
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 
+	public void sendEmail() {
+		btnEnviarEmail.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				NewEmailWindows emailWindows = new NewEmailWindows(mc.getEmail());
+			}
+		});
+	}
 	/**
 	 * Defines the actionListner of the "Responder" button.
 	 * 
@@ -324,7 +334,9 @@ public class MainWindows extends JFrame{
 					Object canal = timelineTable.getValueAt(row, 1);
 					if (canal.equals("E-mail")) {
 						String origem = (String) timelineTable.getValueAt(row, 2);
-						NewEmailWindows emailWindows = new NewEmailWindows(origem);
+						NewEmailWindows emailWindows = new NewEmailWindows(mc.getEmail());
+						emailWindows.setDestino(origem);
+						
 					} else if (canal == "Facebook") {
 
 					} else if (canal == "Twitter") {
@@ -377,6 +389,7 @@ public class MainWindows extends JFrame{
 			}
 		});
 	}
+	
 
 	public void procurarFocusListener() {
 		txtProcurar.addFocusListener(new FocusListener() {
