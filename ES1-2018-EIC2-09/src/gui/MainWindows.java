@@ -66,10 +66,11 @@ public class MainWindows extends JFrame {
 	private JTextArea itemContent;
 	private MainClass mc;
 	private List<String> contentList;
+	private JButton btnEnviarEmail,btnTwitterPost,btnFacebookPost;
 
 	public MainWindows(MainClass mc) {
 		contentList=new ArrayList<String>();
-//		this.mc = mc;
+		this.mc = mc;
 		setResizable(false);
 		init("Bom Dia Academia", 1000, 800);
 		makeSidebar();
@@ -140,13 +141,13 @@ public class MainWindows extends JFrame {
 		ImageIcon iscteIconRescaled = new ImageIcon(iscteImageRescaled);
 		iscteLabel.setIcon(iscteIconRescaled);
 
-		JButton btnEnviarEmail = new JButton("Enviar e-mail");
+		btnEnviarEmail = new JButton("Enviar e-mail");
 		panelLeft.add(btnEnviarEmail);
 
-		JButton btnTwiiterPost = new JButton("Twiiter Post");
-		panelLeft.add(btnTwiiterPost);
+		btnTwitterPost = new JButton("Twiiter Post");
+		panelLeft.add(btnTwitterPost);
 
-		JButton btnFacebookPost = new JButton("Facebook Post");
+		btnFacebookPost = new JButton("Facebook Post");
 		panelLeft.add(btnFacebookPost);
 
 		btnElearning = new JButton("E-Learning");
@@ -270,6 +271,11 @@ public class MainWindows extends JFrame {
 	 */
 	public void addNotificationList(ArrayList<Notification> ns){
 		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
+		//contentList.clear();
+		/*for(int i = 0;i<timelineTable.getRowCount();i++){
+			removeNotification(i);
+			System.out.println("remove"+i);
+		}*/
 		for(Notification n:ns){
 			model.addRow(new Object[] { n.getDate().toString(), n.getChannel(), n.getSource(), n.getSubject() });
 			panelCenter.repaint();
@@ -402,15 +408,27 @@ public class MainWindows extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(cbFilter.getSelectedItem().equals("No Filter")) {
-					//MOSTRAR TUDO
+					mc.setFilter('n');
 				} else if(cbFilter.getSelectedItem().equals("E-mail")) {
-					//MOSTRAR DO E-MAIL
+					mc.setFilter('e');
 				} else if(cbFilter.getSelectedItem().equals("Facebook")) {
-					//MOSTRAR DO FACEBOOK
+					mc.setFilter('f');
 				} else {
-					//MOSTRAR DO TWITTER
+					mc.setFilter('t');
 				}
 			}
+		});
+	}
+	
+	public void tweetButtonListener(){
+		btnTwitterPost.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//ADICIONAR AQUI NOVA JANELA PARA FAZER TWEET
+				
+			}
+			
 		});
 	}
 	

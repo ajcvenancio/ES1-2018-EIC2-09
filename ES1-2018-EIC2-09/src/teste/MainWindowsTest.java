@@ -4,11 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import gui.MainClass;
 import gui.MainWindows;
 
 class MainWindowsTest {
-
-	private MainWindows mw = new MainWindows();
+	private MainClass mc =  new MainClass();
+	private MainWindows mw = new MainWindows(mc);
 
 	@Test
 	void testAddNotification() {
