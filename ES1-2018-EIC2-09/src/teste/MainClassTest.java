@@ -6,17 +6,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
+import channels.NotificationComparator;
 import channels.email;
 import gui.MainClass;
 
 public class MainClassTest {
 
 	private MainClass mainClass;
+	private NotificationComparator comparator;
 	
 	@Before
 	public void init() {
 		mainClass = new MainClass();
 		mainClass.setEmail(new email("testees1111@outlook.pt", "mailTESTE123"));
+		comparator = new NotificationComparator();
 	}
 
 	@Test
@@ -56,6 +59,11 @@ public class MainClassTest {
 		mainClass.setFilter('a');
 		System.out.println(mainClass.refreshAll());
 		assertEquals(0, mainClass.refreshAll().size());	
+	}
+	
+	@Test
+	public void testShortList() {
+		mainClass.refreshAll().sort(comparator);
 	}
 	
 }

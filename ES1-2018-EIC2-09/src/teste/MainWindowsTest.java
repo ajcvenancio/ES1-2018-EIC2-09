@@ -40,5 +40,11 @@ public class MainWindowsTest {
 		mainWindows.removeNotification(row);
 		assertEquals("Removing 1 row to timeline", 1, mainWindows.getTimelineTable().getRowCount() );
 	}
+	
+	@Test
+	public void testMaximizeWindows() {
+		mainWindows.maximizeWindow();
+		assertEquals("Está maximizado ", 6, mainWindows.getExtendedState());
+	}
 }
 

@@ -29,11 +29,6 @@ public class FacebookUserTest {
 	}
 	
 	@Test
-	public void testUserLatestDaysPosts2() {
-		assertFalse("Confirmar se todos os posts são das últimas 24 horas", checkPostsInList24Hours(facebookUser.getUserLatestDaysPosts(30)));
-	}
-	
-	@Test
 	public void testPostOnGroup() {
 		String strTest = "JUnit Test";
 		facebookUser.postOnGroup(strTest);
