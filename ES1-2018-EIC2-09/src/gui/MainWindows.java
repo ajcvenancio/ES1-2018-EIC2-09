@@ -93,6 +93,7 @@ public class MainWindows extends JFrame{
 		sairListener();
 		clickTimelineListener();
 		tweetButtonListener();
+		facebookButtonListener();
 	}
 
 	/**
@@ -431,6 +432,16 @@ public class MainWindows extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				TwitterPostWindow tWindow=new TwitterPostWindow(mc.getTwitterUser());
+			}
+			
+		});
+	}
+	public void facebookButtonListener(){
+		btnFacebookPost.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FacebookPostWindow fWindow=new FacebookPostWindow(mc.getFacebookUser());
 			}
 			
 		});
