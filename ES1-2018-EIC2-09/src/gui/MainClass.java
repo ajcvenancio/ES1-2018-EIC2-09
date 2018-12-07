@@ -34,7 +34,9 @@ public class MainClass {
 	public TwitterUser getTwitterUser(){
 		return this.t;
 	}
-	
+	public email getEmail() {
+		return this.mail;
+	}
 	public FacebookUser getFacebookUser(){
 		return this.fb;
 	}
@@ -46,7 +48,7 @@ public class MainClass {
 		if(filter == 'n'|| filter == 'f')
 			ns.addAll(fb.getUserLatestDaysPosts(5));
 		if(filter == 'n' || filter == 'e')
-			//meter addALL do EMAIL
+			ns.addAll(mail.searchEmail());
 		ns.sort(new NotificationComparator());
 		return ns;
 	}

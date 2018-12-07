@@ -66,6 +66,7 @@ public class email {
 		 
 		connect();
 //		searchEmail();
+		send("testees1111@outlook.pt", "username","subject","sdfjg");
 		System.out.println(getDate());
 	}
 
@@ -118,12 +119,15 @@ public class email {
 	 *            User email address
 	 * @param password
 	 *            Password from the user email address
+	 * @return 
 	 * 
 	 * @exception MessagingException
 	 * 
 	 */
 
-	public void searchEmail(/* String username, String password */) {
+	public ArrayList<Notification> searchEmail(/* String username, String password */) {
+		receivedEmail = new ArrayList<>();
+				
 		try {
 
 			/* open Inbox folder */
@@ -135,6 +139,7 @@ public class email {
 				System.out.println("Your Inbox is empty!");
 			} 
 			else {
+				System.out.println("zete");
 				 receivedEmail = addEmailList(foundMessages);
 //				showInbox(foundMessages);
 			}
@@ -145,8 +150,28 @@ public class email {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		return receivedEmail;
 	}
-	
+//	private void showInbox(Message[] foundMessages) {
+//		for (int i = foundMessages.length - 1; i >= 0; i--) {
+//			Message message = foundMessages[i];
+//			try {
+//				System.out.println("From: " + message.getFrom()[0]);
+//				System.out.println("Subject: " + message.getSubject());
+//
+//				System.out.println("Date: " + message.getSentDate());
+//
+//				System.out.println("");
+//				System.out.println("------------: " + i + ":---------------");
+//			} catch (MessagingException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//		}
+//
+//	}
+//	
 	/**
 	 * 
 	 * 
@@ -159,16 +184,16 @@ public class email {
 	 * 
 	 */
 	private ArrayList<Notification> addEmailList(Message[] foundMessages) {
-		receivedEmail = new ArrayList<>();
 		try {
 			for (int i = foundMessages.length - 1; i >= 0; i--) {
 				if (foundMessages[i].getReceivedDate().after(getDate())) {
-					
+					System.out.println("emtra?");
 					Date date = foundMessages[i].getReceivedDate();
 					String source = getSource(foundMessages[i])/* foundMessages[i].getFrom()[0] */;
 					String subject = foundMessages[i].getSubject();
 					String text = getTextFromMessage(foundMessages[i]);
 					Notification notification = new Notification("E-mail", date, source, subject, text);
+					System.out.println(notification.getSubject());
 					receivedEmail.add(notification);
 //					mainWindow.addNotification(/* date, "email", source, subject */notification);
 				
@@ -484,6 +509,18 @@ public class email {
 	}
 	
 	/**
+	 * 
+	 * This method is a getter for the attribute password
+	 * 
+	 * @return Store
+	 */
+	public String getPassword() {
+		return password;
+	}
+	
+	
+	
+	/**
 	 * This method is used to get the Text from an email in a String format. If the message is multipart
 	 * the method invokes other method to translate the parameter from Message to String
 	 * 
@@ -562,8 +599,8 @@ public class email {
 
 	public static void main(String[] args) {
 
-		String username = "testees@.pt";
-		String password = "TESTEteste123";
+		String username = "testees1111@outlook.pt";
+		String password = "mailTESTE123";
 		new email(username, password);
 		// Scanner in = new Scanner(System.in);
 		//

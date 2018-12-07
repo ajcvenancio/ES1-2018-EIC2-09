@@ -348,7 +348,7 @@ public class MainWindows extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SiteLogin elearninglogin = new SiteLogin("ze", "asfsaas");
+				SiteLogin elearninglogin = new SiteLogin(mc.getEmail().getUsername(), mc.getEmail().getPassword());
 				elearninglogin.runElearning();
 			}
 		});
@@ -359,7 +359,7 @@ public class MainWindows extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SiteLogin fenixlogin = new SiteLogin("ze", "fasddsa");
+				SiteLogin fenixlogin = new SiteLogin(mc.getEmail().getUsername(), mc.getEmail().getPassword());
 				fenixlogin.runFenix();
 			}
 		});

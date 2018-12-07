@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><OfflineSave>	
 	<Credentials>
 		<credential Password="TESTEteste123" Username="testees@outlook.pt"/>
-	</Credentials>
+	<credential Password="mailTESTE123" Username="testees1111@outlook.pt"/>
+</Credentials>
 	<Posts>
 <notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject0" text="blablablasdfg"/>
 <notification channel="EMAIL" date="03-03-1901 00:00:00" source="lele" subject="subject1" text="blablablasdfg"/>
