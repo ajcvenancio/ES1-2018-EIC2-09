@@ -2,20 +2,31 @@ package teste;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
+
+import org.junit.Before;
 import org.junit.Test;
 
+import channels.Notification;
 import gui.LoginWindows;
+import gui.MainClass;
+import gui.MainWindows;
 
-class LoginWindowsTest {
+public class LoginWindowsTest {
 
-	private LoginWindows lw = new LoginWindows();
+	private LoginWindows loginWindow;
 
+	@Before
+	public void Init() {
+		loginWindow = new LoginWindows();
+	}
+	
 	@Test
-	void testInit() {
-		lw.init("titulo", 700, 700);
-		assertEquals("Titulo inserido", "titulo", lw.getTitle());
-		assertEquals("Largura inserida", 700, lw.getWidth());
-		assertEquals("Altura inserida", 700, lw.getHeight());
+	public void testInit() {
+		loginWindow.init("titulo", 700, 700);
+		assertEquals("Titulo inserido", "titulo", loginWindow.getTitle());
+		assertEquals("Largura inserida", 700, loginWindow.getWidth());
+		assertEquals("Altura inserida", 700, loginWindow.getHeight());
 	}
 
 }
