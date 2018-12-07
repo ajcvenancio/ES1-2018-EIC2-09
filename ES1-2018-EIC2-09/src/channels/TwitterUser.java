@@ -29,9 +29,11 @@ public final class TwitterUser  {
 		try {
 			for(Status s: twitter.getHomeTimeline()){
 				if (s.getUser().getName() != null && s.getUser().getName().contains(user)) {
-					Notification n = new Notification("twitter",(Date) s.getCreatedAt(),s.getUser().getName()," - ",s.getText());
-					System.out.println(s.getURLEntities());
-					notifications.add(n);
+					if(s.getCreatedAt().getTime()>System.currentTimeMillis()-86400000){
+						Notification n = new Notification("twitter",(Date) s.getCreatedAt(),s.getUser().getName()," - ",s.getText());
+						System.out.println(s.getURLEntities());
+						notifications.add(n);
+					}
 				}
 			}
 		} catch (TwitterException e) {
