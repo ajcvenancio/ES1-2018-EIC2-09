@@ -84,13 +84,6 @@ public class LoginWindows extends JFrame {
 		getContentPane().add(btnLogin);
 		
 		
-		/////PARA APAGAR DEPOIS/////////////
-		passwordField.setText("mailTESTE123");
-		emailField.setText("testees1111@outlook.pt");
-		///////////////////////////////////////
-		
-		
-		
 		loginListener();
 		init("Login - Bom dia Academia", 430, 550);
 

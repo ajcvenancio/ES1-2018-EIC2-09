@@ -383,7 +383,7 @@ public class MainWindows extends JFrame{
 	}
 
 	public void refreshListener() {
-//		btnRefresh.setEnabled(!mc.getOffline());
+		btnRefresh.setEnabled(!mc.getOffline());
 		btnRefresh.addActionListener(new ActionListener() {
 			
 			@Override
