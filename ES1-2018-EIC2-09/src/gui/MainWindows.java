@@ -6,12 +6,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.RenderingHints.Key;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -33,8 +36,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.text.JTextComponent.KeyBinding;
 
 //import com.restfb.types.Notification;
 
@@ -50,9 +55,10 @@ import config.SiteLogin;
  * @since 2018
  * @version 1.1
  */
-public class MainWindows extends JFrame {
+public class MainWindows extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JTable timelineTable;
+	private DefaultTableModel tableModel;
 	private JPanel panelCenter;
 	private JButton btnResponder;
 	private JButton btnElearning;
@@ -85,7 +91,8 @@ public class MainWindows extends JFrame {
 		refreshListener();
 		logOffListener();
 		sairListener();
-		clickListener();
+		clickTimelineListener();
+		tweetButtonListener();
 	}
 
 	/**
@@ -207,7 +214,7 @@ public class MainWindows extends JFrame {
 		// scrollPane.setBorder(new LineBorder(new Color(105, 105, 105)));
 		panelCenter.add(timelineTableScrollPane);
 
-		DefaultTableModel tableModel = new DefaultTableModel(null,
+		tableModel = new DefaultTableModel(null,
 				new Object[] { "Data", "Canal", "Origem", "Assunto" });
 
 		timelineTable = new JTable(tableModel) {
@@ -271,11 +278,6 @@ public class MainWindows extends JFrame {
 	 */
 	public void addNotificationList(ArrayList<Notification> ns){
 		DefaultTableModel model = (DefaultTableModel) timelineTable.getModel();
-		//contentList.clear();
-		/*for(int i = 0;i<timelineTable.getRowCount();i++){
-			removeNotification(i);
-			System.out.println("remove"+i);
-		}*/
 		for(Notification n:ns){
 			model.addRow(new Object[] { n.getDate().toString(), n.getChannel(), n.getSource(), n.getSubject() });
 			panelCenter.repaint();
@@ -368,6 +370,7 @@ public class MainWindows extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				tableModel.setRowCount(0);
 				contentList.clear();
 				addNotificationList(mc.refreshAll());
 			}
@@ -391,16 +394,18 @@ public class MainWindows extends JFrame {
 	}
 	
 	public void procurarEnterListener() {
-		if(txtProcurar.isCursorSet()) {
+		
 			txtProcurar.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//AO CLICAR NO ENTER, PROCURAR ALGUMA COISA
+					tableModel.setRowCount(0);
+					contentList.clear();
+					System.out.println(txtProcurar.getText());
+					addNotificationList(mc.searchOnNotifications(txtProcurar.getText()));
 				}
 			});
 		}
-	}
 	
 	public void filterListener() {
 		cbFilter.addActionListener(new ActionListener() {
@@ -425,8 +430,7 @@ public class MainWindows extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ADICIONAR AQUI NOVA JANELA PARA FAZER TWEET
-				
+				TwitterPostWindow tWindow=new TwitterPostWindow(mc.getTwitterUser());
 			}
 			
 		});
@@ -475,7 +479,9 @@ public class MainWindows extends JFrame {
 	 * @author amsgn-iscteiul
 	 * @since 2018
 	 */
-	public void clickListener(){
+	
+	public void clickTimelineListener(){
+		
 		timelineTable.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -522,4 +528,5 @@ public class MainWindows extends JFrame {
 	public JButton getBtnRefresh() {
 		return btnRefresh;
 	}
+
 }

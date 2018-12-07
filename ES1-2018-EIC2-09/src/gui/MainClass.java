@@ -21,8 +21,16 @@ public class MainClass {
 		mainWindows = new MainWindows(this);
 		ns=new ArrayList<Notification>();
 		t=new TwitterUser();;
-		//fb=new FacebookUser("EAAHQqdCwezIBAESeUi86ruT1qjga1Htn9lqpCyBTorusTmU1RiH36IHC7cOxZAlYxmj4c1cTx0YdwDy8izJZCYJJLQAH5IcQ7PDMZCnEbizjYy2zwS73cfeyTbfQtvJXuh5tOv3kZCTay2HZAUCryvIKk5CYxolUxnC59pOhZCoq4N6JHCTBnpAvFxSblXURwZD");
+		fb=new FacebookUser();
 		mainWindows.addNotificationList(refreshAll());
+	}
+	
+	public TwitterUser getTwitterUser(){
+		return this.t;
+	}
+	
+	public FacebookUser getFacebookUser(){
+		return this.fb;
 	}
 	
 	public ArrayList<Notification> refreshAll(){
@@ -30,11 +38,23 @@ public class MainClass {
 		if(filter == 'n'|| filter == 't')
 			ns.addAll(t.getStatuses("ISCTE"));
 		if(filter == 'n'|| filter == 'f')
-			//ns.addAll(fb.getUserLatestDaysPosts(5));
+			ns.addAll(fb.getUserLatestDaysPosts(5));
 		if(filter == 'n' || filter == 'e')
 			//meter addALL do EMAIL
 		ns.sort(new NotificationComparator());
 		return ns;
+	}
+	
+	public ArrayList<Notification> searchOnNotifications(String str) {
+		ArrayList<Notification> list = new ArrayList<>();
+		if(ns != null) {
+			for(Notification n : ns) {
+				if(n.getText().contains(str)) {
+					list.add(n);
+				}
+			}
+		}
+		return list;
 	}
 	
 	public void setFilter(char c){

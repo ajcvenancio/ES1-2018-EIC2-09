@@ -1,12 +1,6 @@
 package channels;
 
 
-import java.beans.XMLEncoder;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,21 +41,13 @@ public final class TwitterUser  {
 		return notifications;
 	}
 	
-	
-	private String changeDateFormat(String dateInString){
-		SimpleDateFormat s = new SimpleDateFormat("dd/MMM/yyyy");
-		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String date = dateInString.split(" ")[2] + "-" + dateInString.split(" ")[1] + "-" + dateInString.split(" ")[5] +"  Time: "+ dateInString.split(" ")[3] ;
-		return date;
-	}
-	
-
-	public static void main(String[] args) {
-		TwitterUser t=new TwitterUser();
-		for(Notification s : t.getStatuses("ISCTE")){
-			System.out.println();
-			System.out.println(s.toString());
+	public void Post(String str){
+		try {
+			twitter.updateStatus(str);
+		} catch (TwitterException e) {
+			System.out.println("Unable to update Status");
 		}
 	}
+	
 }
     
