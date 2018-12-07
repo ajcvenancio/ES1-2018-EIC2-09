@@ -5,7 +5,7 @@ package channels;
  * 
  * @author dgsos-iscteiul
  * @since 2018
- * @version 1.1
+ * @version 1.2
  */
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,8 +28,8 @@ public class FacebookUser {
 	private FacebookClient fbClient;
 	private User me;
 
-	public FacebookUser(String accessTokenString) {
-		fbClient = new DefaultFacebookClient(accessTokenString);
+	public FacebookUser() {
+		fbClient = new DefaultFacebookClient("EAAHQqdCwezIBAJChvIIe5VPLXJXG6q4nRLMnEvSHvbewzeN5wJQxKTZB0OZChxgVLDiZAYGOuABZCsCpKfDVUV0tuNBfpZCrQZAeLA1n2PSkR263sixRgiOMUI0xZAZC0wsC2liKH7MKeADnLX3HShqqAhULmfYH9o8ZD\r\n");
 		me = fbClient.fetchObject("me", User.class);
 	}
 
@@ -87,31 +87,14 @@ public class FacebookUser {
 	}
 
 	/**
-	 * Receive a String on publish this string on a Facebook group,
-	 * 		return the url of this new publication
+	 * Receive a String on publish this string on a Facebook group
 	 * 
-	 * @param a string to post
 	 * @return url of the new post
 	 * @author dgsos-iscteiul
 	 * @since 2018
 	 */
-	public String postOnGroup(String str) {
-		FacebookType response = fbClient.publish("301124660499343/feed", FacebookType.class, Parameter.with("message", str));
-		return "fb.com/" + response.getId();
-	}
-
-	public static void main(String[] args) {
-		FacebookUser fbuser = new FacebookUser("EAAHQqdCwezIBAOyWAiZCgaUoMab1MSW0BCHfU2fSvhqAq6ocVCIwHzp2jK9nVOGzG2fpeoADOc7lVFWd8wG18GOrfe69z2OvEdCXSCay6u6JSpCT9VNPFkRDgRnZCkVPCsWyoCkfNQ7oOTTQ4jN5B6osATHrVgmUNTdPZAZCQ4TBUcJ7xO6k85DI6wFjV18ZD");
-//		System.out.println(fbuser.getUserLatestPosts(1));
-//		System.out.println(fbuser.getUserLatest24hPosts());
-//		System.out.println(fbuser.getUserName());
-//		System.out.println(fbuser.postOnGroup("Test"));
-//		ArrayList<Notification> list = fbuser.getUserLatest24hPosts();
-//		if(list == null) {
-//			System.out.println("é nula");
-//		} else {
-//			System.out.println(list.size());
-//		}
+	public void postOnGroup(String str) {
+		fbClient.publish("301124660499343/feed", FacebookType.class, Parameter.with("message", str));
 	}
 
 }
